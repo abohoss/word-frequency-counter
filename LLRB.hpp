@@ -3,8 +3,8 @@
 #include <iostream>
 using namespace std;
 template <typename V,typename K>
-class LLRB
-{
+
+class LLRB<V,K> {
 private:
 Node* root;
     class Node {
@@ -20,5 +20,4 @@ public:
     ~LLRB();
     
 };
-
-
+#endif
