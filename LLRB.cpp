@@ -14,7 +14,7 @@ void LLRB<V,K>::insert(K key){
 
 
 template <typename V,typename K>
-Node* LLRB<V,K>::insert(K key,Node* x) {
+typename LLRB<V,k>::Node* LLRB<V,K>::insert(K key,Node* x) {
     if(x==0) {
         size++;
         return new Node(key,1);
@@ -25,8 +25,8 @@ Node* LLRB<V,K>::insert(K key,Node* x) {
         x->val++;
         size++;
     }
-    if(isRed(x->right) && !isRed(x->left))  {rotateLeft(x);}
-    if(isRed(x->left) && isRed(x->left->left))  {rotateRight(x);}
+    if(isRed(x->right) && !isRed(x->left))  {x = rotateLeft(x);}
+    if(isRed(x->left) && isRed(x->left->left))  {x = rotateRight(x);}
     if(isRed(x->right) && isRed(x->left))   {flip(x);}
     return x;
 }
@@ -43,5 +43,12 @@ bool LLRB<V,K>::isRed(Node* x){
 }
 
 template <typename V,typename K>
-
+Node* rotateRight(Node* x) {
+    typename LLRB<V,k>::Node* temp=x->left;
+    x->left=temp->right;
+    temp->right=x;
+    temp->color=x->color;
+    x->color=RED;
+    return x;
+}
 template <typename V,typename K>

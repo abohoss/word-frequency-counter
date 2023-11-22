@@ -18,8 +18,8 @@ private:
 int size;
 Node* root;
     Node* insert(K key, Node* x);
-    void rotateLeft(Node* x); 
-    void rotateright(Node* x);
+    Node* rotateLeft(Node* x); 
+    Node* rotateRight(Node* x);
     void flip(Node* x); 
 public:
     LLRB();
@@ -27,4 +27,5 @@ public:
     void insert(K key);
     bool isRed(Node* x);    
 };
+#include "LLRB.cpp"
 #endif
