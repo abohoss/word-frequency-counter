@@ -32,7 +32,13 @@ Node* LLRB<V,K>::insert(K key,Node* x) {
     return x;
 }
 template <typename V,typename K>
-void flip(Node* node){
-    
+void flip(Node* x){
+    if(x==0) {return;}
+    x->color=RED;
+    x->left->color=BLACK;
+    x->right->color=BLACK;
 }
 template <typename V,typename K>
+bool isRed(Node* x);{
+    return x->color==RED;
+}
