@@ -5,7 +5,7 @@ using namespace std;
 
 enum Color { RED, BLACK };
 template <typename V,typename K>
-class LLRB<V,K> {
+class LLRB {
 private:
     class Node {
         public:

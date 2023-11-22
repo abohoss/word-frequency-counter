@@ -1,9 +1,8 @@
 #include "LLRB.hpp"
+
 template <typename V,typename K>
-LLRB<V,K>::LLRB(){
-    root=0;
-    size=0;
-}
+LLRB<V,K>::LLRB(): root(0),size(0){}
+
 template <typename V,typename K>
 void LLRB<V,K>::insert(K key){
     if(key==0)  {
@@ -32,13 +31,17 @@ Node* LLRB<V,K>::insert(K key,Node* x) {
     return x;
 }
 template <typename V,typename K>
-void flip(Node* x){
+void LLRB<V,K>::flip(Node* x){
     if(x==0) {return;}
     x->color=RED;
     x->left->color=BLACK;
     x->right->color=BLACK;
 }
 template <typename V,typename K>
-bool isRed(Node* x);{
+bool LLRB<V,K>::isRed(Node* x){
     return x->color==RED;
 }
+
+template <typename V,typename K>
+
+template <typename V,typename K>
