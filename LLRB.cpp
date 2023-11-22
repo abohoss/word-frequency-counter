@@ -32,4 +32,7 @@ Node* LLRB<V,K>::insert(K key,Node* x) {
     return x;
 }
 template <typename V,typename K>
+void flip(Node* node){
+    
+}
 template <typename V,typename K>

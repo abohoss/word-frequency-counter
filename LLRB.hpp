@@ -7,25 +7,24 @@ enum Color { RED, BLACK };
 template <typename V,typename K>
 class LLRB<V,K> {
 private:
-Node* root;
-int size;
     class Node {
+        public:
         Node* left,right;
         V val;
         K key;
         Color color;
-        public:
         Node(K key, V val): left(NULL),right(NULL),val(val),key(key), color(RED) {}
-    }
+    };
+int size;
+Node* root;
+    Node* insert(K key, Node* x);
+    void rotateLeft(Node* x); 
+    void rotateright(Node* x);
+    void flip(Node* x); 
 public:
     LLRB();
     ~LLRB();
     void insert(K key);
-    bool isRed(Node* node);
-private:
-    Node* insert(K key, Node* node);
-    void rotateLeft(Node* node); 
-    void rotateright(Node* node);
-    void flip(Node* node); 
+    bool isRed(Node* x);    
 };
 #endif
