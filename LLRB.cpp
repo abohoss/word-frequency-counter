@@ -68,3 +68,5 @@ template <typename V,typename K>
 bool LLRB<V,K>::isEmpty(){
     return root == 0;
 }
+
+template class LLRB<int, string>;

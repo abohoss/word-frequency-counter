@@ -1,6 +1,7 @@
 #ifndef LLRB
 #define LLRB
 #include <iostream>
+#include <string>
 using namespace std;
 
 enum Color { RED, BLACK };
