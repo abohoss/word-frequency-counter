@@ -21,11 +21,13 @@ Node* root;
     Node* rotateLeft(Node* x); 
     Node* rotateRight(Node* x);
     void flip(Node* x); 
+    bool isRed(Node* x);    
 public:
     LLRB();
     ~LLRB();
     void insert(K key);
-    bool isRed(Node* x);    
+    int size();
+    bool isEmpty();
 };
-#include "LLRB.cpp"
+
 #endif

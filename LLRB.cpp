@@ -43,7 +43,7 @@ bool LLRB<V,K>::isRed(Node* x){
 }
 
 template <typename V,typename K>
-Node* rotateRight(Node* x) {
+Node* LLRB<V,K>::rotateRight(Node* x) {
     typename LLRB<V,k>::Node* temp=x->left;
     x->left=temp->right;
     temp->right=x;
@@ -52,3 +52,19 @@ Node* rotateRight(Node* x) {
     return x;
 }
 template <typename V,typename K>
+Node* LLRB<V,K>::rotateLeft(Node* x) {
+    typename LLRB<V,k>::Node* temp=x->right;
+    x->right=temp->left;
+    temp->left=x;
+    temp->color=x->color;
+    x->color=RED;
+    return x;
+}
+template <typename V,typename K>
+int LLRV<V,K>::size(){
+    return size;
+}
+template <typename V,typename K>
+bool LLRB<V,K>::isEmpty(){
+    return root == 0;
+}
