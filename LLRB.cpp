@@ -14,7 +14,7 @@ void LLRB<V,K>::insert(K key){
 
 
 template <typename V,typename K>
-typename LLRB<V,k>::Node* LLRB<V,K>::insert(K key,Node* x) {
+ LLRB<V,k>::Node* LLRB<V,K>::insert(K key,Node* x) {
     if(x==0) {
         size++;
         return new Node(key,1);
@@ -68,5 +68,27 @@ template <typename V,typename K>
 bool LLRB<V,K>::isEmpty(){
     return root == 0;
 }
+
+template <typename V,typename K>
+    V LLRB<V,K>::getFrequency(K key) {
+        if(key == 0) {
+            cerr<<"insert an item"<<endl;
+            return NULL;
+        }
+        return getFrequency(key,root);
+    }
+template <typename V,typename K>
+    V LLRB<V,K>::getFrequency(K key, Node* x) {
+        if(x == 0) {
+            cerr<<"tree is empty"<<endl;
+            return NULL;
+        }
+        if(key < x->key )   {return getFrequency(key,x->left);}
+        else if(key > x->key )   {return getFrequency(key,x->right);}
+        else    {return x->val;}
+    }
+
+template <typename V,typename K>
+
 
 template class LLRB<int, string>;

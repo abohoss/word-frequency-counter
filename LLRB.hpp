@@ -22,13 +22,15 @@ Node* root;
     Node* rotateLeft(Node* x); 
     Node* rotateRight(Node* x);
     void flip(Node* x); 
-    bool isRed(Node* x);    
+    bool isRed(Node* x);  
+    V getFrequency(K key, Node* x);
 public:
     LLRB();
     ~LLRB();
     void insert(K key);
     int size();
     bool isEmpty();
+    V getFrequency(K key);
 };
 
 #endif
