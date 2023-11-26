@@ -1,4 +1,5 @@
 #include "LLRB.hpp"
+#include "MaxPQ.hpp"
 
 /* This is the constructor of the LLRB class. It initializes the root pointer to 0 (null) and the size to 0. */
 template <typename K, typename V>
@@ -214,6 +215,38 @@ template <typename K, typename V>
 void LLRB<K, V>::erase(K key)
 {
 }
+
+template <typename K, typename V>
+void displayNfrequency(int n){
+    displayNfrequency(n,root);
+}
+
+template <typename K, typename V>
+void displayNfrequency(int n, LLRB<K, V>::Node *&treeNode) {
+    if(root == NULL) {
+        cerr<<"empty tree"<< endl;
+        return;
+        } 
+    if(n > size) {
+        cout<<" cannot display more than your input! "<<endl;
+        return;
+        }
+    MaxPQ<K, V> PQ(size);
+    cout<<"TOP "<<n<<" frequenct words:  ";
+    if(treeNode != NULL) {
+        PQ.enqueue(treeNode->val, treeNode->key);
+        displayNfrequency(n, treeNode->left);
+        displayNfrequency(n, treeNode->right);
+    }
+    for(int i=0; i<n; i++) {
+        if(!PQ.isEmpty()) {
+        cout<<PQ.getHighest()->val<<"  its frequency: "<<PQ.getHighest()->key<<endl;
+        PQ.dequeue();
+        }
+    }
+}
+
+
 
 template class LLRB<string, unsigned short>;
 template ostream &operator<<(ostream &out, const LLRB<string, unsigned short> &aLLRB);

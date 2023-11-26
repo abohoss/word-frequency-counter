@@ -33,6 +33,8 @@ class MaxPQ {
         size=1;
     }
     void enqueue(K key, V val);
-    Node* dequeue(K key, V val);  
+    Node* dequeue();
+    Node* getHighest(); 
+    bool isEmpty() const; 
 };
 #endif
