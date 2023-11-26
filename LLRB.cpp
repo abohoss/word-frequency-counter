@@ -14,7 +14,7 @@ void LLRB<K, V>::insert(K &key)
         cerr << "no real key inserted!!" << endl;
         return:
     }
-    root = insert(key, root);
+     insert(key, root);
 }
 
 /* The `insert` function is used to insert a key-value pair into the LLRB (Left-Leaning Red-Black) tree. */
@@ -37,7 +37,6 @@ void LLRB<K, V>::insert(K key, LLRB<K, V>::Node *&treeNode)
     else
     {
         treeNode->val++;
-        size++; // why????????????????
     }
     if (isRed(treeNode->right) && !isRed(treeNode->left))
     {
@@ -78,7 +77,7 @@ void LLRB<K, V>::rotateRight(LLRB<K, V>::Node *&treeNode)
     treeNode->left = temp->right;
     temp->right = treeNode;
     temp->color = treeNode->color;
-    treeNode->color = RED; // whyyyyyyyyyy
+    treeNode->color = RED; 
 }
 
 template <typename K, typename V>
@@ -89,7 +88,6 @@ void LLRB<K, V>::rotateLeft(LLRB<K, V>::Node *&treeNode)
     temp->left = treeNode;
     temp->color = treeNode->color;
     treeNode->color = RED;
-    return (treeNode);
 }
 template <typename K, typename V>
 int LLRB<K, V>::size() const
@@ -142,7 +140,7 @@ void LLRB<K, V>::displayHelperRNL(ostream &out, LLRB<K, V>::Node *&treeNode) con
     if (treeNode != NULL)
     {
         displayHelperRNL(treeNode->right);
-        out << treeNode->key << ": " << treeNode->value << '(' << treeNode->color << ')' << endl;
+        out << treeNode->key << ": " << treeNode->value << endl;
         displayHelperRNL(treeNode->left);
     }
 }
@@ -152,7 +150,7 @@ void LLRB<K, V>::displayHelperNLR(ostream &out, LLRB<K, V>::Node *&treeNode) con
 {
     if (treeNode != NULL)
     {
-        out << treeNode->key << ": " << treeNode->value << '(' << treeNode->color << ')' << endl;
+        out << treeNode->key << ": " << treeNode->value << endl;
         displayHelperNLR(treeNode->left);
         displayHelperNLR(treeNode->right);
     }
@@ -164,7 +162,7 @@ void LLRB<K, V>::displayHelperLNR(ostream &out, LLRB<K, V>::Node *&treeNode) con
     if (treeNode != NULL)
     {
         displayHelperLNR(treeNode->left);
-        out << treeNode->key << ": " << treeNode->value << '(' << treeNode->color << ')' << endl;
+        out << treeNode->key << ": " << treeNode->value << endl;
         displayHelperLNR(treeNode->right);
     }
 }
@@ -201,6 +199,7 @@ ostream &operator<<(ostream &out, const LLRB<K, V> &aLLRB)
     unsigned short num;
     if (cin >> num)
     {
+        if(num>=1 && num<=3 )
         display(out, num);
     }
     else
@@ -216,5 +215,5 @@ void LLRB<K, V>::erase(K key)
 {
 }
 
-template class LLRB<string, int>;
-template ostream &operator<<(ostream &out, const LLRB<string, int> &aLLRB);
+template class LLRB<string, unsigned short>;
+template ostream &operator<<(ostream &out, const LLRB<string, unsigned short> &aLLRB);
