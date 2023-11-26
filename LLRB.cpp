@@ -1,94 +1,219 @@
 #include "LLRB.hpp"
 
-template <typename V,typename K>
-LLRB<V,K>::LLRB(): root(0),size(0){}
+/* This is the constructor of the LLRB class. It initializes the root pointer to 0 (null) and the size to 0. */
+template <typename K, typename V>
+LLRB<K, V>::LLRB() : root(0), size(0) {}
 
-template <typename V,typename K>
-void LLRB<V,K>::insert(K key){
-    if(key==0)  {
-        cerr<<"no real key inserted!!"<<endl;
+/* `insert` function of the LLRB class. It takes a reference to a key (`K`) as a
+parameter. */
+template <typename K, typename V>
+void LLRB<K, V>::insert(K &key)
+{
+    if (key == 0)
+    {
+        cerr << "no real key inserted!!" << endl;
         return:
-        }
-    root=insert(key,root);
+    }
+     insert(key, root);
 }
 
-
-template <typename V,typename K>
- LLRB<V,k>::Node* LLRB<V,K>::insert(K key,Node* x) {
-    if(x==0) {
+/* The `insert` function is used to insert a key-value pair into the LLRB (Left-Leaning Red-Black) tree. */
+template <typename K, typename V>
+void LLRB<K, V>::insert(K key, LLRB<K, V>::Node *&treeNode)
+{
+    if (treeNode == 0)
+    {
         size++;
-        return new Node(key,1);
+        treeNode = new Node(key, 1);
     }
-    if(key < x->key) {x->left=insert(key,x->left);}
-    else if(key > x->key) {x->right=insert(key,x->right);}
-    else {  
-        x->val++;
-        size++;
+    if (key < treeNode->key)
+    {
+        insert(key, treeNode->left);
     }
-    if(isRed(x->right) && !isRed(x->left))  {x = rotateLeft(x);}
-    if(isRed(x->left) && isRed(x->left->left))  {x = rotateRight(x);}
-    if(isRed(x->right) && isRed(x->left))   {flip(x);}
-    return x;
-}
-template <typename V,typename K>
-void LLRB<V,K>::flip(Node* x){
-    if(x==0) {return;}
-    x->color=RED;
-    x->left->color=BLACK;
-    x->right->color=BLACK;
-}
-template <typename V,typename K>
-bool LLRB<V,K>::isRed(Node* x){
-    return x->color==RED;
-}
-
-template <typename V,typename K>
-Node* LLRB<V,K>::rotateRight(Node* x) {
-    typename LLRB<V,k>::Node* temp=x->left;
-    x->left=temp->right;
-    temp->right=x;
-    temp->color=x->color;
-    x->color=RED;
-    return x;
-}
-template <typename V,typename K>
-Node* LLRB<V,K>::rotateLeft(Node* x) {
-    typename LLRB<V,k>::Node* temp=x->right;
-    x->right=temp->left;
-    temp->left=x;
-    temp->color=x->color;
-    x->color=RED;
-    return x;
-}
-template <typename V,typename K>
-int LLRV<V,K>::size(){
-    return size;
-}
-template <typename V,typename K>
-bool LLRB<V,K>::isEmpty(){
-    return root == 0;
-}
-
-template <typename V,typename K>
-    V LLRB<V,K>::getFrequency(K key) {
-        if(key == 0) {
-            cerr<<"insert an item"<<endl;
-            return NULL;
-        }
-        return getFrequency(key,root);
+    else if (key > treeNode->key)
+    {
+        insert(key, treeNode->right);
     }
-template <typename V,typename K>
-    V LLRB<V,K>::getFrequency(K key, Node* x) {
-        if(x == 0) {
-            cerr<<"tree is empty"<<endl;
-            return NULL;
-        }
-        if(key < x->key )   {return getFrequency(key,x->left);}
-        else if(key > x->key )   {return getFrequency(key,x->right);}
-        else    {return x->val;}
+    else
+    {
+        treeNode->val++;
     }
+    if (isRed(treeNode->right) && !isRed(treeNode->left))
+    {
+        rotateLeft(treeNode);
+    }
+    if (isRed(treeNode->left) && isRed(treeNode->left->left))
+    {
+        rotateRight(treeNode);
+    }
+    if (isRed(treeNode->right) && isRed(treeNode->left))
+    {
+        flip(treeNode);
+    }
+}
 
-template <typename V,typename K>
+template <typename K, typename V>
+void LLRB<K, V>::flip(LLRB<K, V>::Node *&treeNode)
+{
+    if (treeNode == 0)
+    {
+        return;
+    }
+    treeNode->color = RED;
+    treeNode->left->color = BLACK;
+    treeNode->right->color = BLACK;
+}
 
+template <typename K, typename V>
+bool LLRB<K, V>::isRed(LLRB<K, V>::Node *&treeNode) const
+{
+    return (treeNode->color == RED);
+}
 
-template class LLRB<int, string>;
+template <typename K, typename V>
+void LLRB<K, V>::rotateRight(LLRB<K, V>::Node *&treeNode)
+{
+    LLRB<K, V>::Node *temp = treeNode->left;
+    treeNode->left = temp->right;
+    temp->right = treeNode;
+    temp->color = treeNode->color;
+    treeNode->color = RED; 
+}
+
+template <typename K, typename V>
+void LLRB<K, V>::rotateLeft(LLRB<K, V>::Node *&treeNode)
+{
+    LLRB<K, V>::Node *temp = treeNode->right;
+    treeNode->right = temp->left;
+    temp->left = treeNode;
+    temp->color = treeNode->color;
+    treeNode->color = RED;
+}
+template <typename K, typename V>
+int LLRB<K, V>::size() const
+{
+    return (size);
+}
+template <typename K, typename V>
+bool LLRB<K, V>::isEmpty() const
+{
+    return (this->root == NULL);
+}
+
+template <typename K, typename V>
+V LLRB<K, V>::getFrequency(K &key) const
+{
+    if (key == NULL)
+    {
+        cerr << "*** Key must have a value (current Key is NULL) returning garbage value ***" << endl;
+        V garbage;
+        return (garbage);
+    }
+    return getFrequencyHelper(key, this->root);
+}
+template <typename K, typename V>
+V LLRB<K, V>::getFrequencyHelper(K &key, LLRB<K, V>::Node *&treeNode) const
+{
+    if (this->isEmpty())
+    {
+        cerr << "***tree is empty returning a garbage value***" << endl;
+        V garbage;
+        return garbage;
+    }
+    if (key < treeNode->key)
+    {
+        return getFrequency(key, treeNode->left);
+    }
+    else if (key > treeNode->key)
+    {
+        return getFrequency(key, treeNode->right);
+    }
+    else
+    {
+        return treeNode->val;
+    }
+}
+
+template <typename K, typename V>
+void LLRB<K, V>::displayHelperRNL(ostream &out, LLRB<K, V>::Node *&treeNode) const
+{
+    if (treeNode != NULL)
+    {
+        displayHelperRNL(treeNode->right);
+        out << treeNode->key << ": " << treeNode->value << endl;
+        displayHelperRNL(treeNode->left);
+    }
+}
+
+template <typename K, typename V>
+void LLRB<K, V>::displayHelperNLR(ostream &out, LLRB<K, V>::Node *&treeNode) const
+{
+    if (treeNode != NULL)
+    {
+        out << treeNode->key << ": " << treeNode->value << endl;
+        displayHelperNLR(treeNode->left);
+        displayHelperNLR(treeNode->right);
+    }
+}
+
+template <typename K, typename V>
+void LLRB<K, V>::displayHelperLNR(ostream &out, LLRB<K, V>::Node *&treeNode) const
+{
+    if (treeNode != NULL)
+    {
+        displayHelperLNR(treeNode->left);
+        out << treeNode->key << ": " << treeNode->value << endl;
+        displayHelperLNR(treeNode->right);
+    }
+}
+
+template <typename K, typename V>
+void LLRB<K, V>::display(ostream &out, unsigned short &choice) const
+{
+    switch (choice)
+    {
+    case 1:
+        out << "displaying LNR" << '\n'
+            << endl;
+        displayHelperLNR(out, this->root);
+        break;
+
+    case 2:
+        out << "displaying NLR" << '\n'
+            << endl;
+        displayHelperNLR(out, this->root);
+        break;
+
+    case 3:
+        out << "displaying RNL" << '\n'
+            << endl;
+        displayHelperRNL(out, this->root);
+        break;
+    }
+}
+
+template <typename K, typename V>
+ostream &operator<<(ostream &out, const LLRB<K, V> &aLLRB)
+{
+    out << "press 1 for LNR, 2 for NLR, and 3 for NLR" << endl;
+    unsigned short num;
+    if (cin >> num)
+    {
+        if(num>=1 && num<=3 )
+        display(out, num);
+    }
+    else
+    {
+        out << "***INVALID INPUT*** displaying default (NLR)" << endl;
+        display(out);
+    }
+    return out;
+}
+
+template <typename K, typename V>
+void LLRB<K, V>::erase(K key)
+{
+}
+
+template class LLRB<string, unsigned short>;
+template ostream &operator<<(ostream &out, const LLRB<string, unsigned short> &aLLRB);
