@@ -19,8 +19,7 @@ void LLRB<K, V>::insert(K &key)
 
 /* The `insert` function is used to insert a key-value pair into the LLRB (Left-Leaning Red-Black) tree. */
 template <typename K, typename V>
-void LLRB<K, V>::insert(K key, LLRB<K, V>::Node *&treeNode)
-{
+void LLRB<K, V>::insert(K key, LLRB<K, V>::Node *&treeNode){
     if (treeNode == 0)
     {
         size++;
@@ -213,7 +212,49 @@ ostream &operator<<(ostream &out, const LLRB<K, V> &aLLRB)
 template <typename K, typename V>
 void LLRB<K, V>::erase(K key)
 {
+
 }
+
+template <typename K, typename V>
+void LLRB<K, V>::eraseALL(LLRB<K, V>::Node *&treeNode){
+    if (treeNode != NULL)
+    {
+        eraseALL(treeNode->left);
+        eraseALL(treeNode->right);
+        delete treeNode;
+    }
+}
+
+template <typename K, typename V>
+LLRB<K, V>::~LLRB(){
+    eraseALL(root);
+}
+
+template <typename K, typename V>
+typename LLRB<K, V>::Node* LLRB<K, V>::copyTree(LLRB<K, V>::Node *&currentNode,LLRB<K, V>::Node *&parent) {
+    if (currentNode == NULL) return ;
+
+    LLRB<K, V>::Node* newNode = new Node(currentNode->key, currentNode->value);
+    newNode->color = currentNode->color;
+    newNode->parent = parent;
+
+    copyTree(currentNode->left, newNode);
+    copyTree(currentNode->right, newNode);
+
+    return newNode;
+}
+
+template <typename K, typename V>
+LLRB<K, V>::LLRB(const LLRB& origLLRB) : root(NULL), size(origLLRB.size) {
+    if (size == 0) return;
+
+    root = copyTree(origLLRB.root, NULL);
+}
+
+
+
+
+
 
 template class LLRB<string, unsigned short>;
 template ostream &operator<<(ostream &out, const LLRB<string, unsigned short> &aLLRB);

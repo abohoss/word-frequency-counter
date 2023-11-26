@@ -35,10 +35,12 @@ private:
     void displayHelperNLR(ostream &out, LLRB<K, V>::Node *&treeNode) const;
     void displayHelperLNR(ostream &out, LLRB<K, V>::Node *&treeNode) const;
     void eraseHelper(K key, LLRB<K, V>::Node *&treeNode);
+    void eraseALL(LLRB<K, V>::Node *&treeNode);
 
 public:
     LLRB();
     ~LLRB();
+    LLRB(const LLRB & origLLRB);
     void insert(K &key);
     int size() const;
     bool isEmpty() const;
