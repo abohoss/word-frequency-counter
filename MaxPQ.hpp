@@ -21,6 +21,7 @@ class MaxPQ {
     int rightchild(int i);
     int parent(int i);
     void swim(int i);
+    void sink(int i);
     public:
     MaxPQ(int capacity){
         arr = new Node[capacity];

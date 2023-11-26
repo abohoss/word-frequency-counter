@@ -32,12 +32,37 @@ int MaxPQ<K,V>::rightchild(int i) {
 }
 template<typename K, typename V>
 void MaxPQ<K,V>::swim(int k) {
-    if( arr[parent(k)] < arr[k] ) {
+    if( k>1 && arr[parent(k)] < arr[k] ) {
         swap(arr[parent(k)], arr[k]);
         swim(parent(k));
     }
 }
 
+
+template<typename K, typename V>
+ MaxPQ<K,V>::Node* dequeue(K key, V val) {
+    if(size == 0) return NULL;
+    int i = 1;
+    MaxPQ<K,V>::Node* tmp = arr[i];
+    arr[i] = arr[size - 1];
+    sink(i);
+    size--;
+    arr[size] = NULL;
+    delete arr[size];
+    return tmp;
+ }  
+
+ template<typename K, typename V>
+ void MaxPQ<K,V>::sink(int i) {
+    if(arr[leftchild(i)] >= arr[rightchild(i)]) {
+       swap(arr[leftchild(i)], arr[i]);
+       sink( leftchild(i) );
+    }
+    else {
+       swap(arr[rightchild(i)], arr[i]);
+       sink( rightchild(i) ); 
+    }
+ }
 
 
 
