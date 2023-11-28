@@ -300,7 +300,7 @@ void LLRB<K, V>::displayNfrequency(int n, LLRB<K, V>::Node *&treeNode)
         displayNfrequency(n, treeNode->left);
         displayNfrequency(n, treeNode->right);
     }
-    cout << "TOP " << n << " frequenct words:  ";
+
     for (int i = 0; i < n; i++)
     {
         if (!PQ.isEmpty())

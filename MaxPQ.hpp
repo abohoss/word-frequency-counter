@@ -37,7 +37,7 @@ public:
         size = 1;
     }
     void enqueue(MaxKey key, MaxVal val);
-    MaxNode *dequeue();
+    void dequeue();
     MaxNode *getHighest();
     bool isEmpty() const;
     ~MaxPQ();

@@ -47,23 +47,23 @@ void MaxPQ<MaxKey, MaxVal>::swim(int k)
 }
 
 template <typename MaxKey, typename MaxVal>
-typename MaxPQ<MaxKey, MaxVal>::MaxNode *MaxPQ<MaxKey, MaxVal>::dequeue()
+void MaxPQ<MaxKey, MaxVal>::dequeue()
 {
    if (size == 0)
-      return NULL;
+      return;
    int i = 1;
-   MaxPQ<MaxKey, MaxVal>::MaxNode *tmp = arr[i];
    arr[i] = arr[size - 1];
    sink(i);
    size--;
    arr[size] = NULL;
    delete arr[size];
-   return tmp;
+   return;
 }
 
 template <typename MaxKey, typename MaxVal>
 void MaxPQ<MaxKey, MaxVal>::sink(int i)
 {
+   if(i >= size)  {return;}
    if (arr[leftchild(i)] >= arr[rightchild(i)])
    {
       swap(arr[leftchild(i)], arr[i]);
