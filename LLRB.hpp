@@ -29,7 +29,7 @@ private:
     void rotateLeft(Node *&treeNode);
     void rotateRight(Node *&treeNode);
     void flip(Node *&treeNode);
-    bool isRed(Node *&treeNode) const;
+    bool isRed(Node *&treeNode);
     V getFrequencyHelper(K &key, Node *&treeNode);
     void displayHelperRNL(ostream &out, LLRB<K, V>::Node *&treeNode);
     void displayHelperNLR(ostream &out, LLRB<K, V>::Node *&treeNode);

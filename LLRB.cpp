@@ -105,8 +105,11 @@ void LLRB<K, V>::flip(LLRB<K, V>::Node *&treeNode)
 }
 
 template <typename K, typename V>
-bool LLRB<K, V>::isRed(LLRB<K, V>::Node *&treeNode) const
+bool LLRB<K, V>::isRed(LLRB<K, V>::Node *&treeNode)
 {
+    if (treeNode == NULL)
+        return false;
+
     return (treeNode->color == RED);
 }
 
@@ -256,25 +259,25 @@ void LLRB<K, V>::displayNfrequency(int n)
     displayNfrequency(n, root);
 }
 
-template <typename K, typename V>
- LLRB<K,V>& LLRB<K,V>::operator=( LLRB<K, V> &rightLLRB){
+// template <typename K, typename V>
+//  LLRB<K,V>& LLRB<K,V>::operator=( LLRB<K, V> &rightLLRB){
 
-    this->size = rightLLRB->size;
+//     this->size = rightLLRB->size;
 
-    if(this->size == 0){
-        this->~LLRB();
-        this->root = NULL;
-        return this;
-    }
-    if(this != &rightLLRB){
-        this->~LLRB();
-        this->root = rightLLRB->root;
-        copyTree(rightLLRB,this);
-    }
+//     if(this->size == 0){
+//         this->~LLRB();
+//         this->root = NULL;
+//         return this;
+//     }
+//     if(this != &rightLLRB){
+//         this->~LLRB();
+//         this->root = rightLLRB->root;
+//         copyTree(rightLLRB,this);
+//     }
 
-    return *this;
+//     return *this;
 
-}
+// }
 
 template <typename K, typename V>
 void LLRB<K, V>::displayNfrequency(int n, LLRB<K, V>::Node *&treeNode)
@@ -290,13 +293,14 @@ void LLRB<K, V>::displayNfrequency(int n, LLRB<K, V>::Node *&treeNode)
         return;
     }
     MaxPQ<V, K> PQ(size);
-    cout << "TOP " << n << " frequenct words:  ";
+
     if (treeNode != NULL)
     {
         PQ.enqueue(treeNode->val, treeNode->key);
         displayNfrequency(n, treeNode->left);
         displayNfrequency(n, treeNode->right);
     }
+    cout << "TOP " << n << " frequenct words:  ";
     for (int i = 0; i < n; i++)
     {
         if (!PQ.isEmpty())
