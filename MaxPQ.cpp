@@ -40,7 +40,7 @@ void MaxPQ<K,V>::swim(int k) {
 
 
 template<typename K, typename V>
- MaxPQ<K,V>::Node* dequeue(K key, V val) {
+ MaxPQ<K,V>::Node* dequeue() {
     if(size == 0) return NULL;
     int i = 1;
     MaxPQ<K,V>::Node* tmp = arr[i];
@@ -64,6 +64,23 @@ template<typename K, typename V>
     }
  }
 
+ template<typename K, typename V>
+ MaxPQ<K,V>::Node* getHighest() {
+    return arr[1];
+ }
+
+ template<typename K, typename V>
+ bool MaxPQ<K,V>::isEmpty() const {
+    return ( size == 1 );
+ }
+
+ template<typename K, typename V>
+ MaxPQ<K,V>::~MaxPQ() {
+    delete [] arr;
+    arr = NULL;
+ }
+
+template class MaxPQ<unsigned short, string>;
 
 
 

@@ -1,4 +1,5 @@
 #include "LLRB.hpp"
+#include "MaxPQ.hpp"
 
 /* This is the constructor of the LLRB class. It initializes the root pointer to 0 (null) and the size to 0. */
 template <typename K, typename V>
@@ -13,8 +14,8 @@ LLRB<K, V>::Node *LLRB<K, V>::copyTree(LLRB<K, V>::Node *&currentNode, LLRB<K, V
     LLRB<K, V>::Node *newNode = new Node(currentNode->key, currentNode->value);
     newNode->color = currentNode->color;
 
-    copyTree(currentNode->left, newNode);
-    copyTree(currentNode->right, newNode);
+    newNode->left = copyTree(currentNode->left, newNode);
+    newNode->right = copyTree(currentNode->right, newNode);
 
     return newNode;
 }
@@ -249,6 +250,89 @@ ostream &operator<<(ostream &out, const LLRB<K, V> &aLLRB)
         display(out);
     }
     return out;
+}
+
+template <typename K, typename V>
+void LLRB<K, V>::eraseALL(LLRB<K, V>::Node *&treeNode)
+{
+    if (treeNode != NULL)
+    {
+        eraseALL(treeNode->left);
+        eraseALL(treeNode->right);
+        delete treeNode;
+    }
+}
+
+template <typename K, typename V>
+LLRB<K, V>::~LLRB()
+{
+    eraseALL(root);
+}
+
+// copy construdtor
+template <typename K, typename V>
+LLRB<K, V>::LLRB(const LLRB &origLLRB) : root(nullptr), size(origLLRB.size)
+{
+    if (size == 0)
+        return;
+
+    // Call the private helper function to copy the tree
+    root = copyTree(origLLRB.root, nullptr);
+}
+
+template <typename K, typename V>
+typename LLRB<K, V>::Node *LLRB<K, V>::copyTree(LLRB<K, V>::Node *&currentNode, LLRB<K, V>::Node *&parent)
+{
+    if (currentNode == NULL)
+        return;
+
+    // Create a new node with the same key, value, and color
+    LLRB<K, V>::Node *newNode = new LLRB<K, V>::Node(currentNode->key, currentNode->value);
+    newNode->color = currentNode->color;
+
+    // Recursively copy the left and right subtrees
+    newNode->left = copyTree(currentNode->left);
+    newNode->right = copyTree(currentNode->right);
+
+    return newNode;
+}
+
+template <typename K, typename V>
+void LLRB<K, V>::displayNfrequency(int n)
+{
+    displayNfrequency(n, root);
+}
+
+template <typename K, typename V>
+void LLRB<K, V>::displayNfrequency(int n, LLRB<K, V>::Node *&treeNode)
+{
+    if (root == NULL)
+    {
+        cerr << "empty tree" << endl;
+        return;
+    }
+    if (n > size)
+    {
+        cout << " cannot display more than your input! " << endl;
+        return;
+    }
+    MaxPQ<K, V> PQ(size);
+    cout << "TOP " << n << " frequenct words:  ";
+    if (treeNode != NULL)
+    {
+        PQ.enqueue(treeNode->val, treeNode->key);
+        displayNfrequency(n, treeNode->left);
+        displayNfrequency(n, treeNode->right);
+    }
+    for (int i = 0; i < n; i++)
+    {
+        if (!PQ.isEmpty())
+        {
+            cout << PQ.getHighest()->val << "  its frequency: " << PQ.getHighest()->key << endl;
+            PQ.dequeue();
+        }
+    }
+    PQ.~MaxPQ();
 }
 
 template class LLRB<string, unsigned short>;

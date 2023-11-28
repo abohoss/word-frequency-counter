@@ -35,8 +35,9 @@ private:
     void displayHelperNLR(ostream &out, LLRB<K, V>::Node *&treeNode) const;
     void displayHelperLNR(ostream &out, LLRB<K, V>::Node *&treeNode) const;
     void eraseHelper(K key, LLRB<K, V>::Node *&treeNode);
+    void displayNfrequency(int n, LLRB<K, V>::Node *&treeNode);
     void eraseALL(LLRB<K, V>::Node *&treeNode);
-    LLRB<K, V>::Node *LLRB<K, V>::copyTree(LLRB<K, V>::Node *&currentNode, LLRB<K, V>::Node *&myRoot);
+    Node *copyTree(Node *&treeNodeOrig, Node *&treeNodeNew);
 
 public:
     LLRB();
@@ -47,7 +48,7 @@ public:
     bool isEmpty() const;
     V getFrequency(K &key) const;
     void display(ostream &out, unsigned short &choice = 2) const;
-    void erase(K key)
+    void displayNfrequency(int n);
 };
 
 template <typename K, typename V>
