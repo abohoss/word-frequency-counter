@@ -36,11 +36,12 @@ private:
     void displayHelperLNR(ostream &out, LLRB<K, V>::Node *&treeNode) const;
     void eraseHelper(K key, LLRB<K, V>::Node *&treeNode);
     void eraseALL(LLRB<K, V>::Node *&treeNode);
+    LLRB<K, V>::Node *LLRB<K, V>::copyTree(LLRB<K, V>::Node *&currentNode, LLRB<K, V>::Node *&myRoot);
 
 public:
     LLRB();
     ~LLRB();
-    LLRB(const LLRB & origLLRB);
+    LLRB(const LLRB &origLLRB);
     void insert(K &key);
     int size() const;
     bool isEmpty() const;

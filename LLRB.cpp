@@ -4,6 +4,47 @@
 template <typename K, typename V>
 LLRB<K, V>::LLRB() : root(0), size(0) {}
 
+template <typename K, typename V>
+LLRB<K, V>::Node *LLRB<K, V>::copyTree(LLRB<K, V>::Node *&currentNode, LLRB<K, V>::Node *&myRoot)
+{
+    if (currentNode == NULL)
+        return;
+
+    LLRB<K, V>::Node *newNode = new Node(currentNode->key, currentNode->value);
+    newNode->color = currentNode->color;
+
+    copyTree(currentNode->left, newNode);
+    copyTree(currentNode->right, newNode);
+
+    return newNode;
+}
+
+template <typename K, typename V>
+LLRB<K, V>::LLRB(const LLRB &origLLRB) : root(NULL), size(origLLRB.size)
+{
+    if (size == 0)
+        return;
+
+    root = copyTree(origLLRB.root, NULL);
+}
+
+template <typename K, typename V>
+void LLRB<K, V>::eraseALL(LLRB<K, V>::Node *&treeNode)
+{
+    if (treeNode != NULL)
+    {
+        eraseALL(treeNode->left);
+        eraseALL(treeNode->right);
+        delete treeNode;
+    }
+}
+
+template <typename K, typename V>
+LLRB<K, V>::~LLRB()
+{
+    eraseALL(root);
+}
+
 /* `insert` function of the LLRB class. It takes a reference to a key (`K`) as a
 parameter. */
 template <typename K, typename V>
@@ -14,12 +55,13 @@ void LLRB<K, V>::insert(K &key)
         cerr << "no real key inserted!!" << endl;
         return:
     }
-     insert(key, root);
+    insert(key, root);
 }
 
 /* The `insert` function is used to insert a key-value pair into the LLRB (Left-Leaning Red-Black) tree. */
 template <typename K, typename V>
-void LLRB<K, V>::insert(K key, LLRB<K, V>::Node *&treeNode){
+void LLRB<K, V>::insert(K key, LLRB<K, V>::Node *&treeNode)
+{
     if (treeNode == 0)
     {
         size++;
@@ -76,7 +118,7 @@ void LLRB<K, V>::rotateRight(LLRB<K, V>::Node *&treeNode)
     treeNode->left = temp->right;
     temp->right = treeNode;
     temp->color = treeNode->color;
-    treeNode->color = RED; 
+    treeNode->color = RED;
 }
 
 template <typename K, typename V>
@@ -198,8 +240,8 @@ ostream &operator<<(ostream &out, const LLRB<K, V> &aLLRB)
     unsigned short num;
     if (cin >> num)
     {
-        if(num>=1 && num<=3 )
-        display(out, num);
+        if (num >= 1 && num <= 3)
+            display(out, num);
     }
     else
     {
@@ -208,53 +250,6 @@ ostream &operator<<(ostream &out, const LLRB<K, V> &aLLRB)
     }
     return out;
 }
-
-template <typename K, typename V>
-void LLRB<K, V>::erase(K key)
-{
-
-}
-
-template <typename K, typename V>
-void LLRB<K, V>::eraseALL(LLRB<K, V>::Node *&treeNode){
-    if (treeNode != NULL)
-    {
-        eraseALL(treeNode->left);
-        eraseALL(treeNode->right);
-        delete treeNode;
-    }
-}
-
-template <typename K, typename V>
-LLRB<K, V>::~LLRB(){
-    eraseALL(root);
-}
-
-template <typename K, typename V>
-typename LLRB<K, V>::Node* LLRB<K, V>::copyTree(LLRB<K, V>::Node *&currentNode,LLRB<K, V>::Node *&parent) {
-    if (currentNode == NULL) return ;
-
-    LLRB<K, V>::Node* newNode = new Node(currentNode->key, currentNode->value);
-    newNode->color = currentNode->color;
-    newNode->parent = parent;
-
-    copyTree(currentNode->left, newNode);
-    copyTree(currentNode->right, newNode);
-
-    return newNode;
-}
-
-template <typename K, typename V>
-LLRB<K, V>::LLRB(const LLRB& origLLRB) : root(NULL), size(origLLRB.size) {
-    if (size == 0) return;
-
-    root = copyTree(origLLRB.root, NULL);
-}
-
-
-
-
-
 
 template class LLRB<string, unsigned short>;
 template ostream &operator<<(ostream &out, const LLRB<string, unsigned short> &aLLRB);
