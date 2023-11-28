@@ -30,7 +30,7 @@ private:
     void rotateRight(Node *&treeNode);
     void flip(Node *&treeNode);
     bool isRed(Node *&treeNode) const;
-    V getFrequencyHelper(K &key, Node *&treeNode) const;
+    V getFrequencyHelper(K &key, Node *&treeNode);
     void displayHelperRNL(ostream &out, LLRB<K, V>::Node *&treeNode) const;
     void displayHelperNLR(ostream &out, LLRB<K, V>::Node *&treeNode) const;
     void displayHelperLNR(ostream &out, LLRB<K, V>::Node *&treeNode) const;
@@ -42,11 +42,11 @@ private:
 public:
     LLRB();
     ~LLRB();
-    LLRB(const LLRB &origLLRB);
+    LLRB(LLRB &origLLRB);
     void insert(K &key);
-    int size() const;
+    int getsize() const;
     bool isEmpty() const;
-    V getFrequency(K &key) const;
+    V getFrequency(K &key);
     void display(ostream &out, unsigned short &choice = 2) const;
     void displayNfrequency(int n);
 };

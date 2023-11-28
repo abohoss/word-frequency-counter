@@ -5,29 +5,29 @@
 template <typename K, typename V>
 LLRB<K, V>::LLRB() : root(0), size(0) {}
 
-template <typename K, typename V>
-LLRB<K, V>::Node *LLRB<K, V>::copyTree(LLRB<K, V>::Node *&currentNode, LLRB<K, V>::Node *&myRoot)
-{
-    if (currentNode == NULL)
-        return;
+// template <typename K, typename V>
+// typename LLRB<K, V>::Node *LLRB<K, V>::copyTree(LLRB<K, V>::Node *&currentNode, LLRB<K, V>::Node *&myRoot)
+// {
+//     if (currentNode == NULL)
+//         return NULL;
 
-    LLRB<K, V>::Node *newNode = new Node(currentNode->key, currentNode->value);
-    newNode->color = currentNode->color;
+//     LLRB<K, V>::Node *newNode = new Node(currentNode->key, currentNode->val);
+//     newNode->color = currentNode->color;
 
-    newNode->left = copyTree(currentNode->left, newNode);
-    newNode->right = copyTree(currentNode->right, newNode);
+//     newNode->left = copyTree(currentNode->left, newNode);
+//     newNode->right = copyTree(currentNode->right, newNode);
 
-    return newNode;
-}
+//     return newNode;
+// }
 
-template <typename K, typename V>
-LLRB<K, V>::LLRB(const LLRB &origLLRB) : root(NULL), size(origLLRB.size)
-{
-    if (size == 0)
-        return;
+// template <typename K, typename V>
+// LLRB<K, V>::LLRB(LLRB<K, V> &origLLRB) : root(NULL), size(origLLRB.size)
+// {
+//     if (size == 0)
+//         return;
 
-    root = copyTree(origLLRB.root, NULL);
-}
+//     root = copyTree(origLLRB.root, NULL);
+// }
 
 template <typename K, typename V>
 void LLRB<K, V>::eraseALL(LLRB<K, V>::Node *&treeNode)
@@ -51,15 +51,15 @@ parameter. */
 template <typename K, typename V>
 void LLRB<K, V>::insert(K &key)
 {
-    if (key == 0)
+    if (key == "")
     {
         cerr << "no real key inserted!!" << endl;
-        return:
+        return;
     }
     insert(key, root);
 }
 
-/* The `insert` function is used to insert a key-value pair into the LLRB (Left-Leaning Red-Black) tree. */
+/* The `insert` function is used to insert a key-val pair into the LLRB (Left-Leaning Red-Black) tree. */
 template <typename K, typename V>
 void LLRB<K, V>::insert(K key, LLRB<K, V>::Node *&treeNode)
 {
@@ -132,7 +132,7 @@ void LLRB<K, V>::rotateLeft(LLRB<K, V>::Node *&treeNode)
     treeNode->color = RED;
 }
 template <typename K, typename V>
-int LLRB<K, V>::size() const
+int LLRB<K, V>::getsize() const
 {
     return (size);
 }
@@ -143,22 +143,22 @@ bool LLRB<K, V>::isEmpty() const
 }
 
 template <typename K, typename V>
-V LLRB<K, V>::getFrequency(K &key) const
+V LLRB<K, V>::getFrequency(K &key)
 {
-    if (key == NULL)
+    if (key == "")
     {
-        cerr << "*** Key must have a value (current Key is NULL) returning garbage value ***" << endl;
+        cerr << "*** Key must have a val (current Key is NULL) returning garbage val ***" << endl;
         V garbage;
         return (garbage);
     }
     return getFrequencyHelper(key, this->root);
 }
 template <typename K, typename V>
-V LLRB<K, V>::getFrequencyHelper(K &key, LLRB<K, V>::Node *&treeNode) const
+V LLRB<K, V>::getFrequencyHelper(K &key, LLRB<K, V>::Node *&treeNode)
 {
     if (this->isEmpty())
     {
-        cerr << "***tree is empty returning a garbage value***" << endl;
+        cerr << "***tree is empty returning a garbage val***" << endl;
         V garbage;
         return garbage;
     }
@@ -182,7 +182,7 @@ void LLRB<K, V>::displayHelperRNL(ostream &out, LLRB<K, V>::Node *&treeNode) con
     if (treeNode != NULL)
     {
         displayHelperRNL(treeNode->right);
-        out << treeNode->key << ": " << treeNode->value << endl;
+        out << treeNode->key << ": " << treeNode->val << endl;
         displayHelperRNL(treeNode->left);
     }
 }
@@ -192,7 +192,7 @@ void LLRB<K, V>::displayHelperNLR(ostream &out, LLRB<K, V>::Node *&treeNode) con
 {
     if (treeNode != NULL)
     {
-        out << treeNode->key << ": " << treeNode->value << endl;
+        out << treeNode->key << ": " << treeNode->val << endl;
         displayHelperNLR(treeNode->left);
         displayHelperNLR(treeNode->right);
     }
@@ -204,7 +204,7 @@ void LLRB<K, V>::displayHelperLNR(ostream &out, LLRB<K, V>::Node *&treeNode) con
     if (treeNode != NULL)
     {
         displayHelperLNR(treeNode->left);
-        out << treeNode->key << ": " << treeNode->value << endl;
+        out << treeNode->key << ": " << treeNode->val << endl;
         displayHelperLNR(treeNode->right);
     }
 }
@@ -286,8 +286,8 @@ typename LLRB<K, V>::Node *LLRB<K, V>::copyTree(LLRB<K, V>::Node *&currentNode, 
     if (currentNode == NULL)
         return;
 
-    // Create a new node with the same key, value, and color
-    LLRB<K, V>::Node *newNode = new LLRB<K, V>::Node(currentNode->key, currentNode->value);
+    // Create a new node with the same key, val, and color
+    LLRB<K, V>::Node *newNode = new LLRB<K, V>::Node(currentNode->key, currentNode->val);
     newNode->color = currentNode->color;
 
     // Recursively copy the left and right subtrees

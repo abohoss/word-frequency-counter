@@ -16,7 +16,8 @@
     "mutex": "cpp",
     "stop_token": "cpp",
     "thread": "cpp",
-    "tuple": "cpp"
+    "tuple": "cpp",
+    "*.tcc": "cpp"
   },
   "C_Cpp_Runner.msvcBatchPath": "",
   "C_Cpp_Runner.cCompilerPath": "gcc",
