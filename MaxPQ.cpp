@@ -6,15 +6,15 @@ void MaxPQ<K, V>::enqueue(K key, V val)
    {
       cerr << "PQ is full!!!" << endl;
    }
-   arr[size] = new Node(key, val);
+   arr[size] = new MaxNode(key, val);
    int i = size;
    swim(i);
    size++;
 }
 template <typename K, typename V>
-void MaxPQ<K, V>::swap(Node *x, Node *y)
+void MaxPQ<K, V>::swap(MaxNode *x, MaxNode *y)
 {
-   MaxPQ<K, V>::Node *tmp;
+   MaxPQ<K, V>::MaxNode *tmp;
    tmp = x;
    x = y;
    y = tmp;
@@ -47,12 +47,12 @@ void MaxPQ<K, V>::swim(int k)
 }
 
 template <typename K, typename V>
-MaxPQ<K, V>::Node *MaxPQ<K, V>::dequeue()
+typename MaxPQ<K, V>::MaxNode *MaxPQ<K, V>::dequeue()
 {
    if (size == 0)
       return NULL;
    int i = 1;
-   MaxPQ<K, V>::Node *tmp = arr[i];
+   MaxPQ<K, V>::MaxNode *tmp = arr[i];
    arr[i] = arr[size - 1];
    sink(i);
    size--;
@@ -77,7 +77,7 @@ void MaxPQ<K, V>::sink(int i)
 }
 
 template <typename K, typename V>
-MaxPQ<K, V>::Node *MaxPQ<K, V>::getHighest()
+typename MaxPQ<K, V>::MaxNode *MaxPQ<K, V>::getHighest()
 {
    return arr[1];
 }
@@ -95,4 +95,4 @@ MaxPQ<K, V>::~MaxPQ()
    arr = NULL;
 }
 
-template class MaxPQ<unsigned short, string>;
+template class MaxPQ<int, string>;

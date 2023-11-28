@@ -7,17 +7,17 @@ template <typename K, typename V>
 class MaxPQ
 {
 private:
-    class Node
+    class MaxNode
     {
     public:
         K key;
         V val;
-        Node(K key, V val) : key(key), val(val){};
+        MaxNode(K key, V val) : key(key), val(val){};
     };
-    Node **arr;
+    MaxNode **arr;
     int capacity;
     int size;
-    void swap(Node *x, Node *y);
+    void swap(MaxNode *x, MaxNode *y);
     int leftchild(int i);
     int rightchild(int i);
     int parent(int i);
@@ -27,7 +27,7 @@ private:
 public:
     MaxPQ(int capacity)
     {
-        arr = new Node[capacity];
+        arr = new MaxNode *[capacity];
         if (arr == NULL)
         {
             cerr << "memory allocation failed" << endl;
@@ -37,8 +37,8 @@ public:
         size = 1;
     }
     void enqueue(K key, V val);
-    Node *dequeue();
-    Node *getHighest();
+    MaxNode *dequeue();
+    MaxNode *getHighest();
     bool isEmpty() const;
     ~MaxPQ();
 };

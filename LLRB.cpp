@@ -5,29 +5,27 @@
 template <typename K, typename V>
 LLRB<K, V>::LLRB() : root(0), size(0) {}
 
-// template <typename K, typename V>
-// typename LLRB<K, V>::Node *LLRB<K, V>::copyTree(LLRB<K, V>::Node *&currentNode, LLRB<K, V>::Node *&myRoot)
-// {
-//     if (currentNode == NULL)
-//         return NULL;
+template <typename K, typename V>
+void LLRB<K, V>::copyTree(LLRB<K, V>::Node *&originalNode, LLRB<K, V>::Node *&myRoot)
+{
+    if (originalNode == NULL)
+        return;
 
-//     LLRB<K, V>::Node *newNode = new Node(currentNode->key, currentNode->val);
-//     newNode->color = currentNode->color;
+    LLRB<K, V>::Node *newNode = new Node(originalNode->key, originalNode->val);
+    newNode->color = originalNode->color;
 
-//     newNode->left = copyTree(currentNode->left, newNode);
-//     newNode->right = copyTree(currentNode->right, newNode);
+    copyTree(originalNode->left, newNode->left);
+    copyTree(originalNode->right, newNode->right);
+}
 
-//     return newNode;
-// }
+template <typename K, typename V>
+LLRB<K, V>::LLRB(LLRB<K, V> &origLLRB) : root(NULL), size(origLLRB.size)
+{
+    if (size == 0)
+        return;
 
-// template <typename K, typename V>
-// LLRB<K, V>::LLRB(LLRB<K, V> &origLLRB) : root(NULL), size(origLLRB.size)
-// {
-//     if (size == 0)
-//         return;
-
-//     root = copyTree(origLLRB.root, NULL);
-// }
+    copyTree(origLLRB.root, root);
+}
 
 template <typename K, typename V>
 void LLRB<K, V>::eraseALL(LLRB<K, V>::Node *&treeNode)
@@ -164,11 +162,11 @@ V LLRB<K, V>::getFrequencyHelper(K &key, LLRB<K, V>::Node *&treeNode)
     }
     if (key < treeNode->key)
     {
-        return getFrequency(key, treeNode->left);
+        return getFrequencyHelper(key, treeNode->left);
     }
     else if (key > treeNode->key)
     {
-        return getFrequency(key, treeNode->right);
+        return getFrequencyHelper(key, treeNode->right);
     }
     else
     {
@@ -177,40 +175,40 @@ V LLRB<K, V>::getFrequencyHelper(K &key, LLRB<K, V>::Node *&treeNode)
 }
 
 template <typename K, typename V>
-void LLRB<K, V>::displayHelperRNL(ostream &out, LLRB<K, V>::Node *&treeNode) const
+void LLRB<K, V>::displayHelperRNL(ostream &out, LLRB<K, V>::Node *&treeNode)
 {
     if (treeNode != NULL)
     {
-        displayHelperRNL(treeNode->right);
+        displayHelperRNL(out, treeNode->right);
         out << treeNode->key << ": " << treeNode->val << endl;
-        displayHelperRNL(treeNode->left);
+        displayHelperRNL(out, treeNode->left);
     }
 }
 
 template <typename K, typename V>
-void LLRB<K, V>::displayHelperNLR(ostream &out, LLRB<K, V>::Node *&treeNode) const
+void LLRB<K, V>::displayHelperNLR(ostream &out, LLRB<K, V>::Node *&treeNode)
 {
     if (treeNode != NULL)
     {
         out << treeNode->key << ": " << treeNode->val << endl;
-        displayHelperNLR(treeNode->left);
-        displayHelperNLR(treeNode->right);
+        displayHelperNLR(out, treeNode->left);
+        displayHelperNLR(out, treeNode->right);
     }
 }
 
 template <typename K, typename V>
-void LLRB<K, V>::displayHelperLNR(ostream &out, LLRB<K, V>::Node *&treeNode) const
+void LLRB<K, V>::displayHelperLNR(ostream &out, LLRB<K, V>::Node *&treeNode)
 {
     if (treeNode != NULL)
     {
-        displayHelperLNR(treeNode->left);
+        displayHelperLNR(out, treeNode->left);
         out << treeNode->key << ": " << treeNode->val << endl;
-        displayHelperLNR(treeNode->right);
+        displayHelperLNR(out, treeNode->right);
     }
 }
 
 template <typename K, typename V>
-void LLRB<K, V>::display(ostream &out, unsigned short &choice) const
+void LLRB<K, V>::display(ostream &out, int choice)
 {
     switch (choice)
     {
@@ -235,66 +233,21 @@ void LLRB<K, V>::display(ostream &out, unsigned short &choice) const
 }
 
 template <typename K, typename V>
-ostream &operator<<(ostream &out, const LLRB<K, V> &aLLRB)
+ostream &operator<<(ostream &out, LLRB<K, V> &aLLRB)
 {
     out << "press 1 for LNR, 2 for NLR, and 3 for NLR" << endl;
-    unsigned short num;
+    int num;
     if (cin >> num)
     {
         if (num >= 1 && num <= 3)
-            display(out, num);
+            aLLRB.display(out, num);
     }
     else
     {
         out << "***INVALID INPUT*** displaying default (NLR)" << endl;
-        display(out);
+        aLLRB.display(out, 2);
     }
     return out;
-}
-
-template <typename K, typename V>
-void LLRB<K, V>::eraseALL(LLRB<K, V>::Node *&treeNode)
-{
-    if (treeNode != NULL)
-    {
-        eraseALL(treeNode->left);
-        eraseALL(treeNode->right);
-        delete treeNode;
-    }
-}
-
-template <typename K, typename V>
-LLRB<K, V>::~LLRB()
-{
-    eraseALL(root);
-}
-
-// copy construdtor
-template <typename K, typename V>
-LLRB<K, V>::LLRB(const LLRB &origLLRB) : root(nullptr), size(origLLRB.size)
-{
-    if (size == 0)
-        return;
-
-    // Call the private helper function to copy the tree
-    root = copyTree(origLLRB.root, nullptr);
-}
-
-template <typename K, typename V>
-typename LLRB<K, V>::Node *LLRB<K, V>::copyTree(LLRB<K, V>::Node *&currentNode, LLRB<K, V>::Node *&parent)
-{
-    if (currentNode == NULL)
-        return;
-
-    // Create a new node with the same key, val, and color
-    LLRB<K, V>::Node *newNode = new LLRB<K, V>::Node(currentNode->key, currentNode->val);
-    newNode->color = currentNode->color;
-
-    // Recursively copy the left and right subtrees
-    newNode->left = copyTree(currentNode->left);
-    newNode->right = copyTree(currentNode->right);
-
-    return newNode;
 }
 
 template <typename K, typename V>
@@ -316,7 +269,7 @@ void LLRB<K, V>::displayNfrequency(int n, LLRB<K, V>::Node *&treeNode)
         cout << " cannot display more than your input! " << endl;
         return;
     }
-    MaxPQ<K, V> PQ(size);
+    MaxPQ<V, K> PQ(size);
     cout << "TOP " << n << " frequenct words:  ";
     if (treeNode != NULL)
     {
@@ -335,5 +288,5 @@ void LLRB<K, V>::displayNfrequency(int n, LLRB<K, V>::Node *&treeNode)
     PQ.~MaxPQ();
 }
 
-template class LLRB<string, unsigned short>;
-template ostream &operator<<(ostream &out, const LLRB<string, unsigned short> &aLLRB);
+template class LLRB<string, int>;
+template ostream &operator<<(ostream &out, LLRB<string, int> &aLLRB);

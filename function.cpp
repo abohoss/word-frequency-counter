@@ -13,8 +13,8 @@ void cleanString(string &str)
     }
 }
 
-template <typename K, typename V>
-void tokenizeAndInsert(string &str, LLRB<K, V> &aLLRB)
+// template <typename K, typename V>
+void tokenizeAndInsert(string &str)
 {
     string word;
     istringstream stream(str);
@@ -23,7 +23,7 @@ void tokenizeAndInsert(string &str, LLRB<K, V> &aLLRB)
     {
         if (word != "")
         {
-            aLLRB.insert(word);
+            cout << word << endl;
         }
     }
 }
