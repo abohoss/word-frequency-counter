@@ -210,11 +210,7 @@ ostream &operator<<(ostream &out, const LLRB<K, V> &aLLRB)
     return out;
 }
 
-template <typename K, typename V>
-void LLRB<K, V>::erase(K key)
-{
 
-}
 
 template <typename K, typename V>
 void LLRB<K, V>::eraseALL(LLRB<K, V>::Node *&treeNode){
@@ -282,6 +278,7 @@ void LLRB<K,V>::displayNfrequency(int n, LLRB<K, V>::Node *&treeNode) {
         PQ.dequeue();
         }
     }
+    PQ.~MaxPQ();
 }
 
 

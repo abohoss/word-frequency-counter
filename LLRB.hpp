@@ -48,7 +48,6 @@ public:
     bool isEmpty() const;
     V getFrequency(K &key) const;
     void display(ostream &out, unsigned short &choice = 2) const;
-    void erase(K key);
     void displayNfrequency(int n);
 };
 
