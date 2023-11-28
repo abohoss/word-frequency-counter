@@ -74,6 +74,10 @@ template<typename K, typename V>
     return ( size == 1 );
  }
 
+ template<typename K, typename V>
+ ~MaxPQ() {
+   
+ }
 
 template class MaxPQ<unsigned short, string>;
 

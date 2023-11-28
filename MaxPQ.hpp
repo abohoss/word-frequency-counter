@@ -36,5 +36,6 @@ class MaxPQ {
     Node* dequeue();
     Node* getHighest(); 
     bool isEmpty() const; 
+    ~MaxPQ();
 };
 #endif
