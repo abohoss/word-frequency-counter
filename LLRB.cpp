@@ -214,7 +214,7 @@ void LLRB<K, V>::erase(K key)
 {
 
 }
-
+// destractor
 template <typename K, typename V>
 void LLRB<K, V>::eraseALL(LLRB<K, V>::Node *&treeNode){
     if (treeNode != NULL)
@@ -230,26 +230,34 @@ LLRB<K, V>::~LLRB(){
     eraseALL(root);
 }
 
+// copy construdtor
 template <typename K, typename V>
-typename LLRB<K, V>::Node* LLRB<K, V>::copyTree(LLRB<K, V>::Node *&currentNode,LLRB<K, V>::Node *&parent) {
-    if (currentNode == NULL) return ;
+LLRB<K, V>::LLRB(const LLRB& origLLRB) : root(nullptr), size(origLLRB.size) {
+    if (size == 0) return;
 
-    LLRB<K, V>::Node* newNode = new Node(currentNode->key, currentNode->value);
+    // Call the private helper function to copy the tree
+    root = copyTree(origLLRB.root, nullptr);
+}
+
+template <typename K, typename V>
+LLRB<K, V>::Node* LLRB<K, V>::copyTree(Node* currentNode) {
+    if (currentNode == nullptr) return nullptr;
+
+    // Create a new node with the same key, value, and color
+    LLRB<K, V>::Node* newNode = new LLRB<K, V>::Node(currentNode->key, currentNode->value);
     newNode->color = currentNode->color;
-    newNode->parent = parent;
 
-    copyTree(currentNode->left, newNode);
-    copyTree(currentNode->right, newNode);
+
+    // Recursively copy the left and right subtrees
+    newNode->left = copyTree(currentNode->left);
+    newNode->right = copyTree(currentNode->right);
 
     return newNode;
 }
 
-template <typename K, typename V>
-LLRB<K, V>::LLRB(const LLRB& origLLRB) : root(NULL), size(origLLRB.size) {
-    if (size == 0) return;
 
-    root = copyTree(origLLRB.root, NULL);
-}
+
+
 
 
 
