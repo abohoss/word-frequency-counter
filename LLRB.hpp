@@ -43,6 +43,7 @@ public:
     LLRB();
     ~LLRB();
     LLRB(LLRB &origLLRB);
+    LLRB &operator=(LLRB &rightLLRB);
     void insert(K &key);
     int getsize() const;
     bool isEmpty() const;

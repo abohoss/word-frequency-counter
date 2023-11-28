@@ -257,6 +257,26 @@ void LLRB<K, V>::displayNfrequency(int n)
 }
 
 template <typename K, typename V>
+ LLRB<K,V>& LLRB<K,V>::operator=( LLRB<K, V> &rightLLRB){
+
+    this->size = rightLLRB->size;
+
+    if(this->size == 0){
+        this->~LLRB();
+        this->root = NULL;
+        return this;
+    }
+    if(this != &rightLLRB){
+        this->~LLRB();
+        this->root = rightLLRB->root;
+        copyTree(rightLLRB,this);
+    }
+
+    return *this;
+
+}
+
+template <typename K, typename V>
 void LLRB<K, V>::displayNfrequency(int n, LLRB<K, V>::Node *&treeNode)
 {
     if (root == NULL)

@@ -5,5 +5,5 @@
 
 void cleanString(string &str);
 
-// template <typename K, typename V>
-void tokenizeAndInsert(string &str);
+ template <typename K, typename V>
+void tokenizeAndInsert(string &str, LLRB<K,V> aLLRB);
