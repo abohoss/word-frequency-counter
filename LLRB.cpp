@@ -1,4 +1,5 @@
 #include "LLRB.hpp"
+#include "MaxPQ.hpp"
 
 /* This is the constructor of the LLRB class. It initializes the root pointer to 0 (null) and the size to 0. */
 template <typename K, typename V>
@@ -231,7 +232,7 @@ LLRB<K, V>::~LLRB(){
 }
 
 template <typename K, typename V>
-typename LLRB<K, V>::Node* LLRB<K, V>::copyTree(LLRB<K, V>::Node *&currentNode,LLRB<K, V>::Node *&parent) {
+ LLRB<K, V>::Node* LLRB<K, V>::copyTree(LLRB<K, V>::Node *&currentNode,LLRB<K, V>::Node *&parent) {
     if (currentNode == NULL) return ;
 
     LLRB<K, V>::Node* newNode = new Node(currentNode->key, currentNode->value);
@@ -253,6 +254,35 @@ LLRB<K, V>::LLRB(const LLRB& origLLRB) : root(NULL), size(origLLRB.size) {
 
 
 
+template <typename K, typename V>
+void LLRB<K,V>::displayNfrequency(int n){
+    displayNfrequency(n,root);
+}
+
+template <typename K, typename V>
+void LLRB<K,V>::displayNfrequency(int n, LLRB<K, V>::Node *&treeNode) {
+    if(root == NULL) {
+        cerr<<"empty tree"<< endl;
+        return;
+        } 
+    if(n > size) {
+        cout<<" cannot display more than your input! "<<endl;
+        return;
+        }
+    MaxPQ<K, V> PQ(size);
+    cout<<"TOP "<<n<<" frequenct words:  ";
+    if(treeNode != NULL) {
+        PQ.enqueue(treeNode->val, treeNode->key);
+        displayNfrequency(n, treeNode->left);
+        displayNfrequency(n, treeNode->right);
+    }
+    for(int i=0; i<n; i++) {
+        if(!PQ.isEmpty()) {
+        cout<<PQ.getHighest()->val<<"  its frequency: "<<PQ.getHighest()->key<<endl;
+        PQ.dequeue();
+        }
+    }
+}
 
 
 
