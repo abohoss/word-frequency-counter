@@ -65,6 +65,7 @@ void LLRB<K, V>::insert(K key, LLRB<K, V>::Node *&treeNode)
     {
         size++;
         treeNode = new Node(key, 1);
+        return; //not sure************************************************
     }
     if (key < treeNode->key)
     {

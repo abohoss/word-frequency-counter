@@ -29,8 +29,6 @@ int main(void)
             cout << "Do you want to continue y/n ";
             cin >> c;
         }
-        while (c != 'n' && c != 'y')
-            ;
         if (c == 'y')
         {
             continue;
@@ -38,6 +36,10 @@ int main(void)
         else if (c == 'n')
         {
             break;
+        }
+        else{
+            cout<<"please enter a valid letter!!"<<endl;
+            continue;
         }
     }
     return (0);
