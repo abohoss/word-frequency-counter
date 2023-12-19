@@ -27,6 +27,7 @@ private:
 public:
     MaxPQ(int capacity)
     {
+        capacity *= 2;
         arr = new MaxNode *[capacity];
         if (arr == NULL)
         {

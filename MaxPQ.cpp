@@ -2,10 +2,10 @@
 template <typename MaxKey, typename MaxVal>
 void MaxPQ<MaxKey, MaxVal>::enqueue(MaxKey key, MaxVal val)
 {
-   if (size == capacity)
-   {
-      cerr << "PQ is full!!!" << endl;
-   }
+   // if (size == capacity)
+   // {
+   //    cerr << "PQ is full!!!" << endl;
+   // }
    arr[size] = new MaxNode(key, val);
    int i = size;
    swim(i);
@@ -39,7 +39,7 @@ int MaxPQ<MaxKey, MaxVal>::rightchild(int i)
 template <typename MaxKey, typename MaxVal>
 void MaxPQ<MaxKey, MaxVal>::swim(int k)
 {
-   if (k > 1 && arr[parent(k)] < arr[k])
+   if (k > 1 && (arr[parent(k)]->key) < (arr[k]->key))
    {
       swap(arr[parent(k)], arr[k]);
       swim(parent(k));
@@ -64,7 +64,7 @@ template <typename MaxKey, typename MaxVal>
 void MaxPQ<MaxKey, MaxVal>::sink(int i)
 {
    if(i >= size)  {return;}
-   if (arr[leftchild(i)] >= arr[rightchild(i)])
+   if ((arr[leftchild(i)]->key) >= (arr[rightchild(i)]->key))
    {
       swap(arr[leftchild(i)], arr[i]);
       sink(leftchild(i));
