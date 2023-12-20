@@ -5,7 +5,6 @@
 
 LLRB::LLRB() : root(0), size(0) {}
 
-
 void LLRB::copyTree(LLRB::Node *&originalNode, LLRB::Node *&myRoot)
 {
     if (originalNode == NULL)
@@ -18,7 +17,6 @@ void LLRB::copyTree(LLRB::Node *&originalNode, LLRB::Node *&myRoot)
     copyTree(originalNode->right, newNode->right);
 }
 
-
 LLRB::LLRB(LLRB &origLLRB) : root(NULL), size(origLLRB.size)
 {
     if (size == 0)
@@ -26,7 +24,6 @@ LLRB::LLRB(LLRB &origLLRB) : root(NULL), size(origLLRB.size)
 
     copyTree(origLLRB.root, root);
 }
-
 
 void LLRB::eraseALL(LLRB::Node *&treeNode)
 {
@@ -37,7 +34,6 @@ void LLRB::eraseALL(LLRB::Node *&treeNode)
         delete treeNode;
     }
 }
-
 
 LLRB::~LLRB()
 {
@@ -94,7 +90,6 @@ void LLRB::insert(string key, LLRB::Node *&treeNode)
     }
 }
 
-
 void LLRB::flip(LLRB::Node *&treeNode)
 {
     if (treeNode == 0)
@@ -106,7 +101,6 @@ void LLRB::flip(LLRB::Node *&treeNode)
     treeNode->right->color = BLACK;
 }
 
-
 bool LLRB::isRed(LLRB::Node *&treeNode)
 {
     if (treeNode == NULL)
@@ -114,7 +108,6 @@ bool LLRB::isRed(LLRB::Node *&treeNode)
 
     return (treeNode->color == RED);
 }
-
 
 void LLRB::rotateRight(LLRB::Node *&treeNode)
 {
@@ -125,7 +118,6 @@ void LLRB::rotateRight(LLRB::Node *&treeNode)
     treeNode->color = RED;
     treeNode = temp;
 }
-
 
 void LLRB::rotateLeft(LLRB::Node *&treeNode)
 {
@@ -146,7 +138,6 @@ bool LLRB::isEmpty() const
 {
     return (this->root == NULL);
 }
-
 
 int LLRB::getFrequency(string &key)
 {
@@ -181,7 +172,6 @@ int LLRB::getFrequencyHelper(string &key, LLRB::Node *&treeNode)
     }
 }
 
-
 void LLRB::displayHelperRNL(ostream &out, LLRB::Node *&treeNode)
 {
     if (treeNode != NULL)
@@ -191,7 +181,6 @@ void LLRB::displayHelperRNL(ostream &out, LLRB::Node *&treeNode)
         displayHelperRNL(out, treeNode->left);
     }
 }
-
 
 void LLRB::displayHelperNLR(ostream &out, LLRB::Node *&treeNode)
 {
@@ -203,7 +192,6 @@ void LLRB::displayHelperNLR(ostream &out, LLRB::Node *&treeNode)
     }
 }
 
-
 void LLRB::displayHelperLNR(ostream &out, LLRB::Node *&treeNode)
 {
     if (treeNode != NULL)
@@ -213,7 +201,6 @@ void LLRB::displayHelperLNR(ostream &out, LLRB::Node *&treeNode)
         displayHelperLNR(out, treeNode->right);
     }
 }
-
 
 void LLRB::display(ostream &out, int choice)
 {
@@ -239,7 +226,6 @@ void LLRB::display(ostream &out, int choice)
     }
 }
 
-
 ostream &operator<<(ostream &out, LLRB &aLLRB)
 {
     out << "press 1 for LNR, 2 for NLR, and 3 for NLR" << endl;
@@ -257,18 +243,26 @@ ostream &operator<<(ostream &out, LLRB &aLLRB)
     return out;
 }
 
+void LLRB::enqueueAll(Node *&treeNode, MaxPQ &PQ)
+{
+    if (treeNode == NULL)
+    {
+        return;
+    }
+    PQ.enqueue(treeNode->val, treeNode->key);
+    enqueueAll(treeNode->left, PQ);
+    enqueueAll(treeNode->right, PQ);
+}
 
 void LLRB::displayNfrequency(int n)
 {
-    MaxPQ PQ(size * 2);
-    displayNfrequency(n, root, PQ);
+
+    displayNfrequency(n, root);
 }
 
-
-
-
-void LLRB::displayNfrequency(int n, LLRB::Node *&treeNode, MaxPQ PQ)
+void LLRB::displayNfrequency(int n, LLRB::Node *&treeNode)
 {
+    MaxPQ PQ(size * 2);
     if (root == NULL)
     {
         cerr << "empty tree" << endl;
@@ -280,12 +274,15 @@ void LLRB::displayNfrequency(int n, LLRB::Node *&treeNode, MaxPQ PQ)
         return;
     }
 
-    if (treeNode != NULL)
-    {
-        PQ.enqueue(treeNode->val, treeNode->key);
-        displayNfrequency(n, treeNode->left, PQ);
-        displayNfrequency(n, treeNode->right, PQ);
-    }
+    enqueueAll(treeNode, PQ);
+
+    cout << "\n\n\n\n"
+         << endl;
+
+    PQ.display();
+
+    cout << "\n\n\n\n"
+         << endl;
 
     for (int i = 0; i < n; i++)
     {
@@ -297,5 +294,3 @@ void LLRB::displayNfrequency(int n, LLRB::Node *&treeNode, MaxPQ PQ)
     }
     PQ.~MaxPQ();
 }
-
-

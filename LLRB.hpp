@@ -36,9 +36,10 @@ private:
     void displayHelperNLR(ostream &out, Node *&treeNode);
     void displayHelperLNR(ostream &out, Node *&treeNode);
     void eraseHelper(string key, Node *&treeNode);
-    void displayNfrequency(int n, Node *&treeNode, MaxPQ PQ);
+    void displayNfrequency(int n, Node *&treeNode);
     void eraseALL(Node *&treeNode);
     void copyTree(Node *&treeNodeOrig, Node *&treeNodeNew);
+    void enqueueAll(Node *&treeNode, MaxPQ &PQ);
 
 public:
     LLRB();
@@ -52,7 +53,6 @@ public:
     void display(ostream &out, int choice);
     void displayNfrequency(int n);
 };
-
 
 ostream &operator<<(ostream &out, LLRB &aLLRB);
 

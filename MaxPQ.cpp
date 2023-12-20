@@ -25,12 +25,10 @@ int MaxPQ::parent(int i)
    return i / 2;
 }
 
-
 int MaxPQ::leftchild(int i)
 {
    return i * 2;
 }
-
 
 int MaxPQ::rightchild(int i)
 {
@@ -46,7 +44,6 @@ void MaxPQ::swim(int k)
    }
 }
 
-
 void MaxPQ::dequeue()
 {
    if (size == 0)
@@ -60,9 +57,8 @@ void MaxPQ::dequeue()
    return;
 }
 
-
 void MaxPQ::sink(int i)
-{   
+{
    int left = leftchild(i);
    int right = rightchild(i);
    int largest = i;
@@ -84,18 +80,15 @@ void MaxPQ::sink(int i)
    }
 }
 
-
- MaxPQ::MaxNode *MaxPQ::getHighest()
+MaxPQ::MaxNode *MaxPQ::getHighest()
 {
    return arr[1];
 }
-
 
 bool MaxPQ::isEmpty() const
 {
    return (size == 1);
 }
-
 
 MaxPQ::~MaxPQ()
 {
@@ -103,4 +96,10 @@ MaxPQ::~MaxPQ()
    arr = NULL;
 }
 
-
+void MaxPQ::display()
+{
+   for (int i = 1; i < size; i++)
+   {
+      cout << arr[i]->val << ":" << arr[i]->key << endl;
+   }
+}

@@ -41,5 +41,6 @@ public:
     MaxNode *getHighest();
     bool isEmpty() const;
     ~MaxPQ();
+    void display();
 };
 #endif
