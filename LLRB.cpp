@@ -42,6 +42,7 @@ template <typename K, typename V>
 LLRB<K, V>::~LLRB()
 {
     eraseALL(root);
+    root = NULL;
 }
 
 /* `insert` function of the LLRB class. It takes a reference to a key (`K`) as a
@@ -55,6 +56,7 @@ void LLRB<K, V>::insert(K &key)
         return;
     }
     insert(key, root);
+
 }
 
 /* The `insert` function is used to insert a key-val pair into the LLRB (Left-Leaning Red-Black) tree. */
@@ -65,6 +67,7 @@ void LLRB<K, V>::insert(K key, LLRB<K, V>::Node *&treeNode)
     {
         size++;
         treeNode = new Node(key, 1);
+        return; 
     }
     if (key < treeNode->key)
     {
@@ -256,7 +259,8 @@ ostream &operator<<(ostream &out, LLRB<K, V> &aLLRB)
 template <typename K, typename V>
 void LLRB<K, V>::displayNfrequency(int n)
 {
-    displayNfrequency(n, root);
+    MaxPQ<V, K> PQ(size);
+    displayNfrequency(n, root, PQ);
 }
 
 // template <typename K, typename V>
@@ -280,7 +284,7 @@ void LLRB<K, V>::displayNfrequency(int n)
 // }
 
 template <typename K, typename V>
-void LLRB<K, V>::displayNfrequency(int n, LLRB<K, V>::Node *&treeNode)
+void LLRB<K, V>::displayNfrequency(int n, LLRB<K, V>::Node *&treeNode, MaxPQ<V, K> PQ)
 {
     if (root == NULL)
     {
@@ -292,15 +296,14 @@ void LLRB<K, V>::displayNfrequency(int n, LLRB<K, V>::Node *&treeNode)
         cout << " cannot display more than your input! " << endl;
         return;
     }
-    MaxPQ<V, K> PQ(size);
 
     if (treeNode != NULL)
     {
         PQ.enqueue(treeNode->val, treeNode->key);
-        displayNfrequency(n, treeNode->left);
-        displayNfrequency(n, treeNode->right);
+        displayNfrequency(n, treeNode->left, PQ);
+        displayNfrequency(n, treeNode->right, PQ);
     }
-
+ 
     for (int i = 0; i < n; i++)
     {
         if (!PQ.isEmpty())

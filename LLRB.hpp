@@ -2,6 +2,7 @@
 #define LLRB_HPP
 #include <iostream>
 #include <string>
+#include "MaxPQ.hpp"
 using namespace std;
 
 enum Color
@@ -35,7 +36,7 @@ private:
     void displayHelperNLR(ostream &out, LLRB<K, V>::Node *&treeNode);
     void displayHelperLNR(ostream &out, LLRB<K, V>::Node *&treeNode);
     void eraseHelper(K key, LLRB<K, V>::Node *&treeNode);
-    void displayNfrequency(int n, LLRB<K, V>::Node *&treeNode);
+    void LLRB<K, V>::displayNfrequency(int n, LLRB<K, V>::Node *&treeNode, MaxPQ<V, K> PQ);
     void eraseALL(LLRB<K, V>::Node *&treeNode);
     void copyTree(Node *&treeNodeOrig, Node *&treeNodeNew);
 
