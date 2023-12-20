@@ -56,7 +56,6 @@ void LLRB<K, V>::insert(K &key)
         return;
     }
     insert(key, root);
-
 }
 
 /* The `insert` function is used to insert a key-val pair into the LLRB (Left-Leaning Red-Black) tree. */
@@ -67,7 +66,7 @@ void LLRB<K, V>::insert(K key, LLRB<K, V>::Node *&treeNode)
     {
         size++;
         treeNode = new Node(key, 1);
-        return; 
+        return;
     }
     if (key < treeNode->key)
     {
@@ -124,6 +123,7 @@ void LLRB<K, V>::rotateRight(LLRB<K, V>::Node *&treeNode)
     temp->right = treeNode;
     temp->color = treeNode->color;
     treeNode->color = RED;
+    treeNode = temp;
 }
 
 template <typename K, typename V>
@@ -134,6 +134,7 @@ void LLRB<K, V>::rotateLeft(LLRB<K, V>::Node *&treeNode)
     temp->left = treeNode;
     temp->color = treeNode->color;
     treeNode->color = RED;
+    treeNode = temp;
 }
 template <typename K, typename V>
 int LLRB<K, V>::getsize() const
@@ -259,7 +260,7 @@ ostream &operator<<(ostream &out, LLRB<K, V> &aLLRB)
 template <typename K, typename V>
 void LLRB<K, V>::displayNfrequency(int n)
 {
-    MaxPQ<V, K> PQ(size);
+    MaxPQ<V, K> PQ(size * 2);
     displayNfrequency(n, root, PQ);
 }
 
@@ -303,7 +304,7 @@ void LLRB<K, V>::displayNfrequency(int n, LLRB<K, V>::Node *&treeNode, MaxPQ<V, 
         displayNfrequency(n, treeNode->left, PQ);
         displayNfrequency(n, treeNode->right, PQ);
     }
- 
+
     for (int i = 0; i < n; i++)
     {
         if (!PQ.isEmpty())

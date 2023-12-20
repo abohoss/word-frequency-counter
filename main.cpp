@@ -7,6 +7,7 @@ int main(void)
         string str;
         LLRB<string, int> tree;
         int n;
+        char c;
         cout << "Hello! this is the word frequencu counter please enter text here: ";
         getline(cin, str);
         cout << endl;
@@ -24,11 +25,8 @@ int main(void)
             tree.displayNfrequency(3);
             cout << endl;
         }
-        char c;
-        {
-            cout << "Do you want to continue y/n ";
-            cin >> c;
-        }
+        cout << "Do you want to continue y/n ";
+        cin >> c;
         if (c == 'y')
         {
             continue;

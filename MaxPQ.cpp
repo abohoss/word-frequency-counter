@@ -63,16 +63,35 @@ void MaxPQ<MaxKey, MaxVal>::dequeue()
 template <typename MaxKey, typename MaxVal>
 void MaxPQ<MaxKey, MaxVal>::sink(int i)
 {
-   if(i >= size)  {return;}
-   if ((arr[leftchild(i)]->key) >= (arr[rightchild(i)]->key))
+   // if(i >= size)  {return;}
+   // if ((arr[leftchild(i)]->key) >= (arr[rightchild(i)]->key))
+   // {
+   //    swap(arr[leftchild(i)], arr[i]);
+   //    sink(leftchild(i));
+   // }
+   // else
+   // {
+   //    swap(arr[rightchild(i)], arr[i]);
+   //    sink(rightchild(i));
+   // }   
+   int left = leftchild(i);
+   int right = rightchild(i);
+   int largest = i;
+
+   if (left < size && arr[left]->key > arr[largest]->key)
    {
-      swap(arr[leftchild(i)], arr[i]);
-      sink(leftchild(i));
+      largest = left;
    }
-   else
+
+   if (right < size && arr[right]->key > arr[largest]->key)
    {
-      swap(arr[rightchild(i)], arr[i]);
-      sink(rightchild(i));
+      largest = right;
+   }
+
+   if (largest != i)
+   {
+      swap(arr[i], arr[largest]);
+      sink(largest);
    }
 }
 
