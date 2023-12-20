@@ -1,6 +1,6 @@
 #include "MaxPQ.hpp"
-template <typename MaxKey, typename MaxVal>
-void MaxPQ<MaxKey, MaxVal>::enqueue(MaxKey key, MaxVal val)
+
+void MaxPQ::enqueue(int key, string val)
 {
    // if (size == capacity)
    // {
@@ -11,33 +11,33 @@ void MaxPQ<MaxKey, MaxVal>::enqueue(MaxKey key, MaxVal val)
    swim(i);
    size++;
 }
-template <typename MaxKey, typename MaxVal>
-void MaxPQ<MaxKey, MaxVal>::swap(MaxNode *x, MaxNode *y)
+
+void MaxPQ::swap(MaxNode *x, MaxNode *y)
 {
-   MaxPQ<MaxKey, MaxVal>::MaxNode *tmp;
+   MaxPQ::MaxNode *tmp;
    tmp = x;
    x = y;
    y = tmp;
 }
-template <typename MaxKey, typename MaxVal>
-int MaxPQ<MaxKey, MaxVal>::parent(int i)
+
+int MaxPQ::parent(int i)
 {
    return i / 2;
 }
 
-template <typename MaxKey, typename MaxVal>
-int MaxPQ<MaxKey, MaxVal>::leftchild(int i)
+
+int MaxPQ::leftchild(int i)
 {
    return i * 2;
 }
 
-template <typename MaxKey, typename MaxVal>
-int MaxPQ<MaxKey, MaxVal>::rightchild(int i)
+
+int MaxPQ::rightchild(int i)
 {
    return i * 2 + 1;
 }
-template <typename MaxKey, typename MaxVal>
-void MaxPQ<MaxKey, MaxVal>::swim(int k)
+
+void MaxPQ::swim(int k)
 {
    if (k > 1 && (arr[parent(k)]->key) < (arr[k]->key))
    {
@@ -46,8 +46,8 @@ void MaxPQ<MaxKey, MaxVal>::swim(int k)
    }
 }
 
-template <typename MaxKey, typename MaxVal>
-void MaxPQ<MaxKey, MaxVal>::dequeue()
+
+void MaxPQ::dequeue()
 {
    if (size == 0)
       return;
@@ -60,20 +60,9 @@ void MaxPQ<MaxKey, MaxVal>::dequeue()
    return;
 }
 
-template <typename MaxKey, typename MaxVal>
-void MaxPQ<MaxKey, MaxVal>::sink(int i)
-{
-   // if(i >= size)  {return;}
-   // if ((arr[leftchild(i)]->key) >= (arr[rightchild(i)]->key))
-   // {
-   //    swap(arr[leftchild(i)], arr[i]);
-   //    sink(leftchild(i));
-   // }
-   // else
-   // {
-   //    swap(arr[rightchild(i)], arr[i]);
-   //    sink(rightchild(i));
-   // }   
+
+void MaxPQ::sink(int i)
+{   
    int left = leftchild(i);
    int right = rightchild(i);
    int largest = i;
@@ -95,23 +84,23 @@ void MaxPQ<MaxKey, MaxVal>::sink(int i)
    }
 }
 
-template <typename MaxKey, typename MaxVal>
-typename MaxPQ<MaxKey, MaxVal>::MaxNode *MaxPQ<MaxKey, MaxVal>::getHighest()
+
+ MaxPQ::MaxNode *MaxPQ::getHighest()
 {
    return arr[1];
 }
 
-template <typename MaxKey, typename MaxVal>
-bool MaxPQ<MaxKey, MaxVal>::isEmpty() const
+
+bool MaxPQ::isEmpty() const
 {
    return (size == 1);
 }
 
-template <typename MaxKey, typename MaxVal>
-MaxPQ<MaxKey, MaxVal>::~MaxPQ()
+
+MaxPQ::~MaxPQ()
 {
    delete[] arr;
    arr = NULL;
 }
 
-template class MaxPQ<int, string>;
+

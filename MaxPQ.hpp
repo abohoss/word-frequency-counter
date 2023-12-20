@@ -3,16 +3,16 @@
 #include <iostream>
 #include <string>
 using namespace std;
-template <typename MaxKey, typename MaxVal>
+
 class MaxPQ
 {
 private:
     class MaxNode
     {
     public:
-        MaxKey key;
-        MaxVal val;
-        MaxNode(MaxKey key, MaxVal val) : key(key), val(val){};
+        int key;
+        string val;
+        MaxNode(int key, string val) : key(key), val(val){};
     };
     MaxNode **arr;
     int capacity;
@@ -36,7 +36,7 @@ public:
         this->capacity = capacity;
         size = 1;
     }
-    void enqueue(MaxKey key, MaxVal val);
+    void enqueue(int key, string val);
     void dequeue();
     MaxNode *getHighest();
     bool isEmpty() const;

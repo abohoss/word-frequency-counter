@@ -2,24 +2,24 @@
 #include "MaxPQ.hpp"
 
 /* This is the constructor of the LLRB class. It initializes the root pointer to 0 (null) and the size to 0. */
-template <typename K, typename V>
-LLRB<K, V>::LLRB() : root(0), size(0) {}
 
-template <typename K, typename V>
-void LLRB<K, V>::copyTree(LLRB<K, V>::Node *&originalNode, LLRB<K, V>::Node *&myRoot)
+LLRB::LLRB() : root(0), size(0) {}
+
+
+void LLRB::copyTree(LLRB::Node *&originalNode, LLRB::Node *&myRoot)
 {
     if (originalNode == NULL)
         return;
 
-    LLRB<K, V>::Node *newNode = new Node(originalNode->key, originalNode->val);
+    LLRB::Node *newNode = new Node(originalNode->key, originalNode->val);
     newNode->color = originalNode->color;
 
     copyTree(originalNode->left, newNode->left);
     copyTree(originalNode->right, newNode->right);
 }
 
-template <typename K, typename V>
-LLRB<K, V>::LLRB(LLRB<K, V> &origLLRB) : root(NULL), size(origLLRB.size)
+
+LLRB::LLRB(LLRB &origLLRB) : root(NULL), size(origLLRB.size)
 {
     if (size == 0)
         return;
@@ -27,8 +27,8 @@ LLRB<K, V>::LLRB(LLRB<K, V> &origLLRB) : root(NULL), size(origLLRB.size)
     copyTree(origLLRB.root, root);
 }
 
-template <typename K, typename V>
-void LLRB<K, V>::eraseALL(LLRB<K, V>::Node *&treeNode)
+
+void LLRB::eraseALL(LLRB::Node *&treeNode)
 {
     if (treeNode != NULL)
     {
@@ -38,17 +38,17 @@ void LLRB<K, V>::eraseALL(LLRB<K, V>::Node *&treeNode)
     }
 }
 
-template <typename K, typename V>
-LLRB<K, V>::~LLRB()
+
+LLRB::~LLRB()
 {
     eraseALL(root);
     root = NULL;
 }
 
-/* `insert` function of the LLRB class. It takes a reference to a key (`K`) as a
+/* `insert` function of the LLRB class. It tastringes a reference to a key (`string`) as a
 parameter. */
-template <typename K, typename V>
-void LLRB<K, V>::insert(K &key)
+
+void LLRB::insert(string &key)
 {
     if (key == "")
     {
@@ -58,9 +58,9 @@ void LLRB<K, V>::insert(K &key)
     insert(key, root);
 }
 
-/* The `insert` function is used to insert a key-val pair into the LLRB (Left-Leaning Red-Black) tree. */
-template <typename K, typename V>
-void LLRB<K, V>::insert(K key, LLRB<K, V>::Node *&treeNode)
+/* The `insert` function is used to insert a key-val pair into the LLRB (Left-Leaning Red-Blacstring) tree. */
+
+void LLRB::insert(string key, LLRB::Node *&treeNode)
 {
     if (treeNode == 0)
     {
@@ -94,8 +94,8 @@ void LLRB<K, V>::insert(K key, LLRB<K, V>::Node *&treeNode)
     }
 }
 
-template <typename K, typename V>
-void LLRB<K, V>::flip(LLRB<K, V>::Node *&treeNode)
+
+void LLRB::flip(LLRB::Node *&treeNode)
 {
     if (treeNode == 0)
     {
@@ -106,8 +106,8 @@ void LLRB<K, V>::flip(LLRB<K, V>::Node *&treeNode)
     treeNode->right->color = BLACK;
 }
 
-template <typename K, typename V>
-bool LLRB<K, V>::isRed(LLRB<K, V>::Node *&treeNode)
+
+bool LLRB::isRed(LLRB::Node *&treeNode)
 {
     if (treeNode == NULL)
         return false;
@@ -115,10 +115,10 @@ bool LLRB<K, V>::isRed(LLRB<K, V>::Node *&treeNode)
     return (treeNode->color == RED);
 }
 
-template <typename K, typename V>
-void LLRB<K, V>::rotateRight(LLRB<K, V>::Node *&treeNode)
+
+void LLRB::rotateRight(LLRB::Node *&treeNode)
 {
-    LLRB<K, V>::Node *temp = treeNode->left;
+    LLRB::Node *temp = treeNode->left;
     treeNode->left = temp->right;
     temp->right = treeNode;
     temp->color = treeNode->color;
@@ -126,45 +126,45 @@ void LLRB<K, V>::rotateRight(LLRB<K, V>::Node *&treeNode)
     treeNode = temp;
 }
 
-template <typename K, typename V>
-void LLRB<K, V>::rotateLeft(LLRB<K, V>::Node *&treeNode)
+
+void LLRB::rotateLeft(LLRB::Node *&treeNode)
 {
-    LLRB<K, V>::Node *temp = treeNode->right;
+    LLRB::Node *temp = treeNode->right;
     treeNode->right = temp->left;
     temp->left = treeNode;
     temp->color = treeNode->color;
     treeNode->color = RED;
     treeNode = temp;
 }
-template <typename K, typename V>
-int LLRB<K, V>::getsize() const
+
+int LLRB::getsize() const
 {
     return (size);
 }
-template <typename K, typename V>
-bool LLRB<K, V>::isEmpty() const
+
+bool LLRB::isEmpty() const
 {
     return (this->root == NULL);
 }
 
-template <typename K, typename V>
-V LLRB<K, V>::getFrequency(K &key)
+
+int LLRB::getFrequency(string &key)
 {
     if (key == "")
     {
-        cerr << "*** Key must have a val (current Key is NULL) returning garbage val ***" << endl;
-        V garbage;
+        cerr << "*** key must have a val (current key is NULL) returning garbage val ***" << endl;
+        int garbage = -1;
         return (garbage);
     }
     return getFrequencyHelper(key, this->root);
 }
-template <typename K, typename V>
-V LLRB<K, V>::getFrequencyHelper(K &key, LLRB<K, V>::Node *&treeNode)
+
+int LLRB::getFrequencyHelper(string &key, LLRB::Node *&treeNode)
 {
     if (this->isEmpty())
     {
         cerr << "***tree is empty returning a garbage val***" << endl;
-        V garbage;
+        int garbage = -1;
         return garbage;
     }
     if (key < treeNode->key)
@@ -181,8 +181,8 @@ V LLRB<K, V>::getFrequencyHelper(K &key, LLRB<K, V>::Node *&treeNode)
     }
 }
 
-template <typename K, typename V>
-void LLRB<K, V>::displayHelperRNL(ostream &out, LLRB<K, V>::Node *&treeNode)
+
+void LLRB::displayHelperRNL(ostream &out, LLRB::Node *&treeNode)
 {
     if (treeNode != NULL)
     {
@@ -192,8 +192,8 @@ void LLRB<K, V>::displayHelperRNL(ostream &out, LLRB<K, V>::Node *&treeNode)
     }
 }
 
-template <typename K, typename V>
-void LLRB<K, V>::displayHelperNLR(ostream &out, LLRB<K, V>::Node *&treeNode)
+
+void LLRB::displayHelperNLR(ostream &out, LLRB::Node *&treeNode)
 {
     if (treeNode != NULL)
     {
@@ -203,8 +203,8 @@ void LLRB<K, V>::displayHelperNLR(ostream &out, LLRB<K, V>::Node *&treeNode)
     }
 }
 
-template <typename K, typename V>
-void LLRB<K, V>::displayHelperLNR(ostream &out, LLRB<K, V>::Node *&treeNode)
+
+void LLRB::displayHelperLNR(ostream &out, LLRB::Node *&treeNode)
 {
     if (treeNode != NULL)
     {
@@ -214,8 +214,8 @@ void LLRB<K, V>::displayHelperLNR(ostream &out, LLRB<K, V>::Node *&treeNode)
     }
 }
 
-template <typename K, typename V>
-void LLRB<K, V>::display(ostream &out, int choice)
+
+void LLRB::display(ostream &out, int choice)
 {
     switch (choice)
     {
@@ -239,8 +239,8 @@ void LLRB<K, V>::display(ostream &out, int choice)
     }
 }
 
-template <typename K, typename V>
-ostream &operator<<(ostream &out, LLRB<K, V> &aLLRB)
+
+ostream &operator<<(ostream &out, LLRB &aLLRB)
 {
     out << "press 1 for LNR, 2 for NLR, and 3 for NLR" << endl;
     int num;
@@ -257,35 +257,17 @@ ostream &operator<<(ostream &out, LLRB<K, V> &aLLRB)
     return out;
 }
 
-template <typename K, typename V>
-void LLRB<K, V>::displayNfrequency(int n)
+
+void LLRB::displayNfrequency(int n)
 {
-    MaxPQ<V, K> PQ(size * 2);
+    MaxPQ PQ(size * 2);
     displayNfrequency(n, root, PQ);
 }
 
-// template <typename K, typename V>
-//  LLRB<K,V>& LLRB<K,V>::operator=( LLRB<K, V> &rightLLRB){
 
-//     this->size = rightLLRB->size;
 
-//     if(this->size == 0){
-//         this->~LLRB();
-//         this->root = NULL;
-//         return this;
-//     }
-//     if(this != &rightLLRB){
-//         this->~LLRB();
-//         this->root = rightLLRB->root;
-//         copyTree(rightLLRB,this);
-//     }
 
-//     return *this;
-
-// }
-
-template <typename K, typename V>
-void LLRB<K, V>::displayNfrequency(int n, LLRB<K, V>::Node *&treeNode, MaxPQ<V, K> PQ)
+void LLRB::displayNfrequency(int n, LLRB::Node *&treeNode, MaxPQ PQ)
 {
     if (root == NULL)
     {
@@ -316,5 +298,4 @@ void LLRB<K, V>::displayNfrequency(int n, LLRB<K, V>::Node *&treeNode, MaxPQ<V, 
     PQ.~MaxPQ();
 }
 
-template class LLRB<string, int>;
-template ostream &operator<<(ostream &out, LLRB<string, int> &aLLRB);
+

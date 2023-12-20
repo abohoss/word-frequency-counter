@@ -5,4 +5,4 @@
 
 void cleanString(string &str);
 
-void tokenizeAndInsert(string &str, LLRB<string, int> &aLLRB);
+void tokenizeAndInsert(string &str, LLRB &aLLRB);

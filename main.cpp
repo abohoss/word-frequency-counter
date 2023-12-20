@@ -5,7 +5,7 @@ int main(void)
     while (true)
     {
         string str;
-        LLRB<string, int> tree;
+        LLRB tree;
         int n;
         char c;
         cout << "Hello! this is the word frequencu counter please enter text here: ";
@@ -35,8 +35,9 @@ int main(void)
         {
             break;
         }
-        else{
-            cout<<"please enter a valid letter!!"<<endl;
+        else
+        {
+            cout << "please enter a valid letter!!" << endl;
             continue;
         }
     }
