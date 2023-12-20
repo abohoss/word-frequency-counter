@@ -17,7 +17,7 @@ private:
     MaxNode **arr;
     int capacity;
     int size;
-    void swap(MaxNode *x, MaxNode *y);
+    void swap(MaxNode **x, MaxNode **y);
     int leftchild(int i);
     int rightchild(int i);
     int parent(int i);

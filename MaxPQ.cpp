@@ -12,12 +12,11 @@ void MaxPQ::enqueue(int key, string val)
    size++;
 }
 
-void MaxPQ::swap(MaxNode *x, MaxNode *y)
+void MaxPQ::swap(MaxNode **x, MaxNode **y)
 {
-   MaxPQ::MaxNode *tmp;
-   tmp = x;
-   x = y;
-   y = tmp;
+   MaxPQ::MaxNode *tmp= *x;
+   *x = *y;
+   *y = tmp;
 }
 
 int MaxPQ::parent(int i)
@@ -39,7 +38,7 @@ void MaxPQ::swim(int k)
 {
    if (k > 1 && (arr[parent(k)]->key) < (arr[k]->key))
    {
-      swap(arr[parent(k)], arr[k]);
+      swap(&arr[parent(k)], &arr[k]);
       swim(parent(k));
    }
 }
@@ -75,7 +74,7 @@ void MaxPQ::sink(int i)
 
    if (largest != i)
    {
-      swap(arr[i], arr[largest]);
+      swap(&arr[i], &arr[largest]);
       sink(largest);
    }
 }
