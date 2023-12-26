@@ -58,11 +58,31 @@
             "problemMatcher": [
                 "$gcc"
             ],
+            "group": "build",
+            "detail": "compiler: /usr/bin/g++"
+        },
+        {
+            "type": "cppbuild",
+            "label": "C/C++: cl.exe build active file",
+            "command": "cl.exe",
+            "args": [
+                "/Zi",
+                "/EHsc",
+                "/nologo",
+                "/Fe${fileDirname}\\${fileBasenameNoExtension}.exe",
+                "*.cpp"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ],
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
-            "detail": "compiler: /usr/bin/g++"
+            "detail": "compiler: cl.exe"
         }
     ]
 }

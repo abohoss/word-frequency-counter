@@ -14,7 +14,7 @@ enum Color
 
 class LLRB
 {
-public:
+private:
     class Node
     {
     public:
@@ -24,6 +24,7 @@ public:
         string key;
         Color color;
         Node(string key, int val) : left(NULL), right(NULL), val(val), key(key), color(RED){};
+        Node(string key, int val, Color color) : left(NULL), right(NULL), val(val), key(key), color(color){};
     };
     int size;
     Node *root;
@@ -42,6 +43,7 @@ public:
     void copyTree(Node *&treeNodeOrig, Node *&treeNodeNew);
     void enqueueAll(Node *&treeNode, MaxPQ &PQ);
     void saveNode(Node *node, ofstream &file);
+    Node* loadNode(ifstream &file);
 
 public:
     LLRB();
@@ -55,6 +57,7 @@ public:
     void display(ostream &out, int choice);
     void displayNfrequency(int n);
     void saveTree(const string &filename);
+    void loadTree(const string &filename);
 };
 
 ostream &operator<<(ostream &out, LLRB &aLLRB);

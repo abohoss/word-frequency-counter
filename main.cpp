@@ -50,20 +50,20 @@
 #include <type_traits>
 #include "LLRB.hpp" // Assuming this is where your Node and LLRB classes are defined
 
-int main()
-{
-    LLRB tree;
-    string s = "hello";
-    tree.insert(s);
-    // Check if Node is a POD type
-    if (std::is_pod<LLRB::Node>::value)
-    {
-        std::cout << "Node is a POD type." << std::endl;
-    }
-    else
-    {
-        std::cout << "Node is not a POD type." << std::endl;
-    }
+// int main()
+// {
+//     LLRB tree;
+//     string s = "hello";
+//     tree.insert(s);
+//     // Check if Node is a POD type
+//     if (std::is_pod<LLRB::Node>::value)
+//     {
+//         std::cout << "Node is a POD type." << std::endl;
+//     }
+//     else
+//     {
+//         std::cout << "Node is not a POD type." << std::endl;
+//     }
 
-    // Rest of your code...
-}
+//     // Rest of your code...
+// }

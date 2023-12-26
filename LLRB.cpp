@@ -295,28 +295,99 @@ void LLRB::displayNfrequency(int n, LLRB::Node *&treeNode)
     PQ.~MaxPQ();
 }
 
-
-
-void LLRB::saveNode(Node* node, ofstream& file) {
-    if (node == nullptr) {
+void LLRB::saveNode(Node *node, ofstream &file)
+{
+    if (node == nullptr)
+    {
         return;
     }
 
-    file.write((char*)node, sizeof(*node));  // Write the node to the file
+    // Write the Node's members to the file individually
+    int keySize = node->key.size();
+    file.write((char *)&keySize, sizeof(keySize));         // Write the size of the key
+    file.write(node->key.c_str(), keySize);                // Write the key itself
+    file.write((char *)&node->val, sizeof(node->val));     // Write the val
+    file.write((char *)&node->color, sizeof(node->color)); // Write the color
 
-    saveNode(node->left, file);  // Recursively save the left subtree
-    saveNode(node->right, file);  // Recursively save the right subtree
+    // Write a flag indicating whether the left and right nodes exist
+    bool hasLeft = node->left != nullptr;
+    bool hasRight = node->right != nullptr;
+    file.write((char *)&hasLeft, sizeof(hasLeft));
+    file.write((char *)&hasRight, sizeof(hasRight));
+
+    // Recursively save the left and right subtrees if they exist
+    if (hasLeft)
+        saveNode(node->left, file);
+    if (hasRight)
+        saveNode(node->right, file);
 }
 
-
-void LLRB::saveTree(const string& filename) {
+void LLRB::saveTree(const string &filename)
+{
     ofstream file(filename, ios::binary);
-    if (!file.is_open()) {
+    if (!file.is_open())
+    {
         cout << "Failed to open file: " << filename << endl;
         return;
     }
 
-    saveNode(root, file);  // Assuming root is the root node of the tree
+    saveNode(root, file); // Assuming root is the root node of the tree
 
     file.close();
+}
+
+LLRB::Node *LLRB::loadNode(ifstream &file)
+{
+    // Read the size of the key
+    int keySize;
+    if (!file.read((char *)&keySize, sizeof(keySize)))
+    {
+        return nullptr; // End of file or error
+    }
+
+    // Read the key itself
+    string key(keySize, '\0');
+    file.read(&key[0], keySize);
+
+    // Read the val and color
+    int val;
+    bool color;
+    file.read((char *)&val, sizeof(val));
+    file.read((char *)&color, sizeof(color));
+    Color color1;
+    if (color)
+    {
+        color1 = BLACK;
+    }
+    else
+    {
+        color1 = RED;
+    }
+
+    // Create the node
+    LLRB::Node *node = new LLRB::Node(key, val, color1);
+
+    // Read the flags indicating whether the left and right nodes exist
+    bool hasLeft, hasRight;
+    file.read((char *)&hasLeft, sizeof(hasLeft));
+    file.read((char *)&hasRight, sizeof(hasRight));
+
+    // Recursively load the left and right subtrees if they exist
+    if (hasLeft)
+        node->left = loadNode(file);
+    if (hasRight)
+        node->right = loadNode(file);
+
+    return node;
+}
+
+void LLRB::loadTree(const string &filename)
+{
+    ifstream file(filename, ios::binary);
+    if (!file.is_open())
+    {
+        throw runtime_error("Could not open file");
+    }
+
+    root = loadNode(file);
 }
