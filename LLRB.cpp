@@ -294,3 +294,29 @@ void LLRB::displayNfrequency(int n, LLRB::Node *&treeNode)
     }
     PQ.~MaxPQ();
 }
+
+
+
+void LLRB::saveNode(Node* node, ofstream& file) {
+    if (node == nullptr) {
+        return;
+    }
+
+    file.write((char*)node, sizeof(*node));  // Write the node to the file
+
+    saveNode(node->left, file);  // Recursively save the left subtree
+    saveNode(node->right, file);  // Recursively save the right subtree
+}
+
+
+void LLRB::saveTree(const string& filename) {
+    ofstream file(filename, ios::binary);
+    if (!file.is_open()) {
+        cout << "Failed to open file: " << filename << endl;
+        return;
+    }
+
+    saveNode(root, file);  // Assuming root is the root node of the tree
+
+    file.close();
+}

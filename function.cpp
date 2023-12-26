@@ -1,4 +1,6 @@
 #include "main.hpp"
+#include <fstream>
+#include <sstream>
 void cleanString(string &str)
 {
     for (int i = 0, len = str.size(); i < len; i++)
@@ -13,16 +15,40 @@ void cleanString(string &str)
     }
 }
 
-void tokenizeAndInsert(string &str, LLRB &aLLRB)
-{
-    string word;
-    istringstream stream(str);
+// void tokenizeAndInsert(string &str, LLRB &aLLRB)
+// {
+//     string word;
+//     istringstream stream(str);
 
-    while (getline(stream, word, ' '))
+//     while (getline(stream, word, ' '))
+//     {
+//         if (word != "")
+//         {
+//             aLLRB.insert(word);
+//         }
+//     }
+// }
+
+void tokenizeAndInsert(string &filename, LLRB &tree)
+{
+    ifstream file(filename);
+    if (!file.is_open())
     {
-        if (word != "")
+        cout << "Failed to open file: " << filename << endl;
+        return;
+    }
+
+    string line;
+    while (getline(file, line))
+    {
+        stringstream ss(line);
+        string word;
+        while (ss >> word)
         {
-            aLLRB.insert(word);
+            cleanString(word); // Assuming cleanString modifies the string in-place to clean it
+            tree.insert(word); // Assuming insert is a method of LLRB that inserts a word
         }
     }
+
+    file.close();
 }

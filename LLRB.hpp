@@ -2,6 +2,7 @@
 #define LLRB_HPP
 #include <iostream>
 #include <string>
+#include <fstream>
 #include "MaxPQ.hpp"
 using namespace std;
 
@@ -13,7 +14,7 @@ enum Color
 
 class LLRB
 {
-private:
+public:
     class Node
     {
     public:
@@ -40,6 +41,7 @@ private:
     void eraseALL(Node *&treeNode);
     void copyTree(Node *&treeNodeOrig, Node *&treeNodeNew);
     void enqueueAll(Node *&treeNode, MaxPQ &PQ);
+    void saveNode(Node *node, ofstream &file);
 
 public:
     LLRB();
@@ -52,6 +54,7 @@ public:
     int getFrequency(string &key);
     void display(ostream &out, int choice);
     void displayNfrequency(int n);
+    void saveTree(const string &filename);
 };
 
 ostream &operator<<(ostream &out, LLRB &aLLRB);
