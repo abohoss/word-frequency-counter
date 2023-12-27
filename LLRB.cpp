@@ -158,6 +158,11 @@ int LLRB::getFrequencyHelper(string &key, LLRB::Node *&treeNode)
         int garbage = -1;
         return garbage;
     }
+    if (treeNode == NULL)
+    {
+        cout << "the word does not exist in text" << endl;
+        return -1;
+    }
     if (key < treeNode->key)
     {
         return getFrequencyHelper(key, treeNode->left);
