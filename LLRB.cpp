@@ -345,7 +345,7 @@ void LLRB::saveTree(const string &filename)
     file.close();
 }
 
-LLRB::Node *LLRB::loadNode(ifstream &file)
+LLRB::Node *LLRB::loadNode(ifstream &file, int &count)
 {
     // Read the size of the key
     int keySize;
@@ -375,7 +375,7 @@ LLRB::Node *LLRB::loadNode(ifstream &file)
 
     // Create the node
     LLRB::Node *node = new LLRB::Node(key, val, color1);
-
+    count++;
     // Read the flags indicating whether the left and right nodes exist
     bool hasLeft, hasRight;
     file.read((char *)&hasLeft, sizeof(hasLeft));
@@ -384,7 +384,7 @@ LLRB::Node *LLRB::loadNode(ifstream &file)
     // Recursively load the left and right subtrees if they exist
     if (hasLeft)
     {
-        node->left = loadNode(file);
+        node->left = loadNode(file, count);
         if (node->left == nullptr)
         {
             hasLeft = false;
@@ -392,7 +392,7 @@ LLRB::Node *LLRB::loadNode(ifstream &file)
     }
     if (hasRight)
     {
-        node->right = loadNode(file);
+        node->right = loadNode(file, count);
         if (node->right == nullptr)
         {
             hasRight = false;
@@ -409,6 +409,7 @@ void LLRB::loadTree(const string &filename)
     {
         throw runtime_error("Could not open file");
     }
-
-    root = loadNode(file);
+    int count = 0;
+    root = loadNode(file, count);
+    this->size = count;
 }

@@ -43,7 +43,7 @@ private:
     void copyTree(Node *&treeNodeOrig, Node *&treeNodeNew);
     void enqueueAll(Node *&treeNode, MaxPQ &PQ);
     void saveNode(Node *node, ofstream &file);
-    Node *loadNode(ifstream &file);
+    Node *loadNode(ifstream &file, int& count);
 
 public:
     LLRB();
