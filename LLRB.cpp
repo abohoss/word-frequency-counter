@@ -304,10 +304,19 @@ void LLRB::saveNode(Node *node, ofstream &file)
 
     // Write the Node's members to the file individually
     int keySize = node->key.size();
-    file.write((char *)&keySize, sizeof(keySize));         // Write the size of the key
-    file.write(node->key.c_str(), keySize);                // Write the key itself
-    file.write((char *)&node->val, sizeof(node->val));     // Write the val
-    file.write((char *)&node->color, sizeof(node->color)); // Write the color
+    file.write((char *)&keySize, sizeof(keySize));     // Write the size of the key
+    file.write(node->key.c_str(), keySize);            // Write the key itself
+    file.write((char *)&node->val, sizeof(node->val)); // Write the val
+    bool color2;
+    if (node->color == RED)
+    {
+        color2 = false;
+    }
+    else
+    {
+        color2 = true;
+    }
+    file.write((char *)&color2, sizeof(color2)); // Write the color
 
     // Write a flag indicating whether the left and right nodes exist
     bool hasLeft = node->left != nullptr;
@@ -374,9 +383,21 @@ LLRB::Node *LLRB::loadNode(ifstream &file)
 
     // Recursively load the left and right subtrees if they exist
     if (hasLeft)
+    {
         node->left = loadNode(file);
+        if (node->left == nullptr)
+        {
+            hasLeft = false;
+        }
+    }
     if (hasRight)
+    {
         node->right = loadNode(file);
+        if (node->right == nullptr)
+        {
+            hasRight = false;
+        }
+    }
 
     return node;
 }
