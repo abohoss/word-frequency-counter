@@ -2,6 +2,8 @@
 #define LLRB_HPP
 #include <iostream>
 #include <string>
+#include <fstream>
+#include "MaxPQ.hpp"
 using namespace std;
 
 enum Color
@@ -9,7 +11,7 @@ enum Color
     RED,
     BLACK
 };
-template <typename K, typename V>
+
 class LLRB
 {
 private:
@@ -18,38 +20,46 @@ private:
     public:
         Node *left;
         Node *right;
-        V val;
-        K key;
+        int val;
+        string key;
         Color color;
-        Node(K key, V val) : left(NULL), right(NULL), val(val), key(key), color(RED){};
+        Node(string key, int val) : left(NULL), right(NULL), val(val), key(key), color(RED){};
+        Node(string key, int val, Color color) : left(NULL), right(NULL), val(val), key(key), color(color){};
     };
-    int size;
+    long size;
     Node *root;
-    void insert(K key, Node *&treeNode);
+    void insert(string key, Node *&treeNode);
     void rotateLeft(Node *&treeNode);
     void rotateRight(Node *&treeNode);
     void flip(Node *&treeNode);
-    bool isRed(Node *&treeNode) const;
-    V getFrequencyHelper(K &key, Node *&treeNode) const;
-    void displayHelperRNL(ostream &out, LLRB<K, V>::Node *&treeNode) const;
-    void displayHelperNLR(ostream &out, LLRB<K, V>::Node *&treeNode) const;
-    void displayHelperLNR(ostream &out, LLRB<K, V>::Node *&treeNode) const;
-    void eraseHelper(K key, LLRB<K, V>::Node *&treeNode);
-    void displayNfrequency(int n, LLRB<K, V>::Node *&treeNode);
+    bool isRed(Node *&treeNode);
+    int getFrequencyHelper(string &key, Node *&treeNode);
+    void displayHelperRNL(ostream &out, Node *&treeNode);
+    void displayHelperNLR(ostream &out, Node *&treeNode);
+    void displayHelperLNR(ostream &out, Node *&treeNode);
+    void eraseHelper(string key, Node *&treeNode);
+    void displayNfrequency(int n, Node *&treeNode);
+    void eraseALL(Node *&treeNode);
+    void copyTree(Node *&treeNodeOrig, Node *&treeNodeNew);
+    void enqueueAll(Node *&treeNode, MaxPQ &PQ);
+    void saveNode(Node *node, ofstream &file);
+    Node *loadNode(ifstream &file, int& count);
 
 public:
     LLRB();
     ~LLRB();
-    void insert(K &key);
-    int size() const;
+    LLRB(LLRB &origLLRB);
+    LLRB &operator=(LLRB &rightLLRB);
+    void insert(string &key);
+    long getsize() const;
     bool isEmpty() const;
-    V getFrequency(K &key) const;
-    void display(ostream &out, unsigned short &choice = 2) const;
-    void erase(K key);
+    int getFrequency(string &key);
+    void display(ostream &out, int choice);
     void displayNfrequency(int n);
+    void saveTree(const string &filename);
+    void loadTree(const string &filename);
 };
 
-template <typename K, typename V>
-ostream &operator<<(ostream &out, const LLRB<K, V> &aLLRB);
+ostream &operator<<(ostream &out, LLRB &aLLRB);
 
 #endif /* LLRB */

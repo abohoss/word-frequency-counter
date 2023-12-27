@@ -2,30 +2,67 @@
 #include "MaxPQ.hpp"
 
 /* This is the constructor of the LLRB class. It initializes the root pointer to 0 (null) and the size to 0. */
-template <typename K, typename V>
-LLRB<K, V>::LLRB() : root(0), size(0) {}
 
-/* `insert` function of the LLRB class. It takes a reference to a key (`K`) as a
-parameter. */
-template <typename K, typename V>
-void LLRB<K, V>::insert(K &key)
+LLRB::LLRB() : root(0), size(0) {}
+
+void LLRB::copyTree(LLRB::Node *&originalNode, LLRB::Node *&myRoot)
 {
-    if (key == 0)
-    {
-        cerr << "no real key inserted!!" << endl;
-        return:
-    }
-     insert(key, root);
+    if (originalNode == NULL)
+        return;
+
+    LLRB::Node *newNode = new Node(originalNode->key, originalNode->val);
+    newNode->color = originalNode->color;
+
+    copyTree(originalNode->left, newNode->left);
+    copyTree(originalNode->right, newNode->right);
 }
 
-/* The `insert` function is used to insert a key-value pair into the LLRB (Left-Leaning Red-Black) tree. */
-template <typename K, typename V>
-void LLRB<K, V>::insert(K key, LLRB<K, V>::Node *&treeNode)
+LLRB::LLRB(LLRB &origLLRB) : root(NULL), size(origLLRB.size)
+{
+    if (size == 0)
+        return;
+
+    copyTree(origLLRB.root, root);
+}
+
+void LLRB::eraseALL(LLRB::Node *&treeNode)
+{
+    if (treeNode != NULL)
+    {
+        eraseALL(treeNode->left);
+        eraseALL(treeNode->right);
+        delete treeNode;
+    }
+}
+
+LLRB::~LLRB()
+{
+    eraseALL(root);
+    root = NULL;
+}
+
+/* `insert` function of the LLRB class. It tastringes a reference to a key (`string`) as a
+parameter. */
+
+void LLRB::insert(string &key)
+{
+    if (key == "")
+    {
+        cerr << "no real key inserted!!" << endl;
+        return;
+    }
+    insert(key, root);
+}
+
+/* The `insert` function is used to insert a key-val pair into the LLRB (Left-Leaning Red-Blacstring) tree. */
+
+void LLRB::insert(string key, LLRB::Node *&treeNode)
 {
     if (treeNode == 0)
     {
         size++;
         treeNode = new Node(key, 1);
+        return;
     }
     if (key < treeNode->key)
     {
@@ -53,8 +90,7 @@ void LLRB<K, V>::insert(K key, LLRB<K, V>::Node *&treeNode)
     }
 }
 
-template <typename K, typename V>
-void LLRB<K, V>::flip(LLRB<K, V>::Node *&treeNode)
+void LLRB::flip(LLRB::Node *&treeNode)
 {
     if (treeNode == 0)
     {
@@ -65,69 +101,75 @@ void LLRB<K, V>::flip(LLRB<K, V>::Node *&treeNode)
     treeNode->right->color = BLACK;
 }
 
-template <typename K, typename V>
-bool LLRB<K, V>::isRed(LLRB<K, V>::Node *&treeNode) const
+bool LLRB::isRed(LLRB::Node *&treeNode)
 {
+    if (treeNode == NULL)
+        return false;
+
     return (treeNode->color == RED);
 }
 
-template <typename K, typename V>
-void LLRB<K, V>::rotateRight(LLRB<K, V>::Node *&treeNode)
+void LLRB::rotateRight(LLRB::Node *&treeNode)
 {
-    LLRB<K, V>::Node *temp = treeNode->left;
+    LLRB::Node *temp = treeNode->left;
     treeNode->left = temp->right;
     temp->right = treeNode;
     temp->color = treeNode->color;
-    treeNode->color = RED; 
+    treeNode->color = RED;
+    treeNode = temp;
 }
 
-template <typename K, typename V>
-void LLRB<K, V>::rotateLeft(LLRB<K, V>::Node *&treeNode)
+void LLRB::rotateLeft(LLRB::Node *&treeNode)
 {
-    LLRB<K, V>::Node *temp = treeNode->right;
+    LLRB::Node *temp = treeNode->right;
     treeNode->right = temp->left;
     temp->left = treeNode;
     temp->color = treeNode->color;
     treeNode->color = RED;
+    treeNode = temp;
 }
-template <typename K, typename V>
-int LLRB<K, V>::size() const
+
+long LLRB::getsize() const
 {
     return (size);
 }
-template <typename K, typename V>
-bool LLRB<K, V>::isEmpty() const
+
+bool LLRB::isEmpty() const
 {
     return (this->root == NULL);
 }
 
-template <typename K, typename V>
-V LLRB<K, V>::getFrequency(K &key) const
+int LLRB::getFrequency(string &key)
 {
-    if (key == NULL)
+    if (key == "")
     {
-        cerr << "*** Key must have a value (current Key is NULL) returning garbage value ***" << endl;
-        V garbage;
+        cerr << "*** key must have a val (current key is NULL) returning garbage val ***" << endl;
+        int garbage = -1;
         return (garbage);
     }
     return getFrequencyHelper(key, this->root);
 }
-template <typename K, typename V>
-V LLRB<K, V>::getFrequencyHelper(K &key, LLRB<K, V>::Node *&treeNode) const
+
+int LLRB::getFrequencyHelper(string &key, LLRB::Node *&treeNode)
 {
     if (this->isEmpty())
     {
-        cerr << "***tree is empty returning a garbage value***" << endl;
-        V garbage;
+        cerr << "***tree is empty returning a garbage val***" << endl;
+        int garbage = -1;
         return garbage;
+    }
+    if (treeNode == NULL)
+    {
+        cout << "the word does not exist in text" << endl;
+        return -1;
     }
     if (key < treeNode->key)
     {
-        return getFrequency(key, treeNode->left);
+        return getFrequencyHelper(key, treeNode->left);
     }
     else if (key > treeNode->key)
     {
-        return getFrequency(key, treeNode->right);
+        return getFrequencyHelper(key, treeNode->right);
     }
     else
     {
@@ -135,41 +177,37 @@ V LLRB<K, V>::getFrequencyHelper(K &key, LLRB<K, V>::Node *&treeNode) const
     }
 }
 
-template <typename K, typename V>
-void LLRB<K, V>::displayHelperRNL(ostream &out, LLRB<K, V>::Node *&treeNode) const
+void LLRB::displayHelperRNL(ostream &out, LLRB::Node *&treeNode)
 {
     if (treeNode != NULL)
     {
-        displayHelperRNL(treeNode->right);
-        out << treeNode->key << ": " << treeNode->value << endl;
-        displayHelperRNL(treeNode->left);
+        displayHelperRNL(out, treeNode->right);
+        out << treeNode->key << ": " << treeNode->val << endl;
+        displayHelperRNL(out, treeNode->left);
     }
 }
 
-template <typename K, typename V>
-void LLRB<K, V>::displayHelperNLR(ostream &out, LLRB<K, V>::Node *&treeNode) const
+void LLRB::displayHelperNLR(ostream &out, LLRB::Node *&treeNode)
 {
     if (treeNode != NULL)
     {
-        out << treeNode->key << ": " << treeNode->value << endl;
-        displayHelperNLR(treeNode->left);
-        displayHelperNLR(treeNode->right);
+        out << treeNode->key << ": " << treeNode->val << endl;
+        displayHelperNLR(out, treeNode->left);
+        displayHelperNLR(out, treeNode->right);
     }
 }
 
-template <typename K, typename V>
-void LLRB<K, V>::displayHelperLNR(ostream &out, LLRB<K, V>::Node *&treeNode) const
+void LLRB::displayHelperLNR(ostream &out, LLRB::Node *&treeNode)
 {
     if (treeNode != NULL)
     {
-        displayHelperLNR(treeNode->left);
-        out << treeNode->key << ": " << treeNode->value << endl;
-        displayHelperLNR(treeNode->right);
+        displayHelperLNR(out, treeNode->left);
+        out << treeNode->key << ": " << treeNode->val << endl;
+        displayHelperLNR(out, treeNode->right);
     }
 }
 
-template <typename K, typename V>
-void LLRB<K, V>::display(ostream &out, unsigned short &choice) const
+void LLRB::display(ostream &out, int choice)
 {
     switch (choice)
     {
@@ -193,60 +231,190 @@ void LLRB<K, V>::display(ostream &out, unsigned short &choice) const
     }
 }
 
-template <typename K, typename V>
-ostream &operator<<(ostream &out, const LLRB<K, V> &aLLRB)
+ostream &operator<<(ostream &out, LLRB &aLLRB)
 {
     out << "press 1 for LNR, 2 for NLR, and 3 for NLR" << endl;
-    unsigned short num;
+    int num;
     if (cin >> num)
     {
-        if(num>=1 && num<=3 )
-        display(out, num);
+        if (num >= 1 && num <= 3)
+            aLLRB.display(out, num);
     }
     else
     {
         out << "***INVALID INPUT*** displaying default (NLR)" << endl;
-        display(out);
+        aLLRB.display(out, 2);
     }
     return out;
 }
 
-template <typename K, typename V>
-void LLRB<K, V>::erase(K key)
+void LLRB::enqueueAll(Node *&treeNode, MaxPQ &PQ)
 {
-}
-
-template <typename K, typename V>
-void displayNfrequency(int n){
-    displayNfrequency(n,root);
-}
-
-template <typename K, typename V>
-void displayNfrequency(int n, LLRB<K, V>::Node *&treeNode) {
-    if(root == NULL) {
-        cerr<<"empty tree"<< endl;
+    if (treeNode == NULL)
+    {
         return;
-        } 
-    if(n > size) {
-        cout<<" cannot display more than your input! "<<endl;
-        return;
-        }
-    MaxPQ<K, V> PQ(size);
-    cout<<"TOP "<<n<<" frequenct words:  ";
-    if(treeNode != NULL) {
-        PQ.enqueue(treeNode->val, treeNode->key);
-        displayNfrequency(n, treeNode->left);
-        displayNfrequency(n, treeNode->right);
     }
-    for(int i=0; i<n; i++) {
-        if(!PQ.isEmpty()) {
-        cout<<PQ.getHighest()->val<<"  its frequency: "<<PQ.getHighest()->key<<endl;
-        PQ.dequeue();
-        }
-    }
+    PQ.enqueue(treeNode->val, treeNode->key);
+    enqueueAll(treeNode->left, PQ);
+    enqueueAll(treeNode->right, PQ);
 }
 
+void LLRB::displayNfrequency(int n)
+{
 
+    displayNfrequency(n, root);
+}
 
-template class LLRB<string, unsigned short>;
-template ostream &operator<<(ostream &out, const LLRB<string, unsigned short> &aLLRB);
+void LLRB::displayNfrequency(int n, LLRB::Node *&treeNode)
+{
+    MaxPQ PQ(size * 2);
+    if (root == NULL)
+    {
+        cerr << "empty tree" << endl;
+        return;
+    }
+    if (n > size)
+    {
+        cout << " cannot display more than your input! " << endl;
+        return;
+    }
+
+    enqueueAll(treeNode, PQ);
+
+    cout << "\n\n\n\n"
+         << endl;
+
+    PQ.display();
+
+    cout << "\n\n\n\n"
+         << endl;
+
+    for (int i = 0; i < n; i++)
+    {
+        if (!PQ.isEmpty())
+        {
+            cout << PQ.getHighest()->val << "  its frequency: " << PQ.getHighest()->key << endl;
+            PQ.dequeue();
+        }
+    }
+    PQ.~MaxPQ();
+}
+
+void LLRB::saveNode(Node *node, ofstream &file)
+{
+    if (node == nullptr)
+    {
+        return;
+    }
+
+    // Write the Node's members to the file individually
+    int keySize = node->key.size();
+    file.write((char *)&keySize, sizeof(keySize));     // Write the size of the key
+    file.write(node->key.c_str(), keySize);            // Write the key itself
+    file.write((char *)&node->val, sizeof(node->val)); // Write the val
+    bool color2;
+    if (node->color == RED)
+    {
+        color2 = false;
+    }
+    else
+    {
+        color2 = true;
+    }
+    file.write((char *)&color2, sizeof(color2)); // Write the color
+
+    // Write a flag indicating whether the left and right nodes exist
+    bool hasLeft = node->left != nullptr;
+    bool hasRight = node->right != nullptr;
+    file.write((char *)&hasLeft, sizeof(hasLeft));
+    file.write((char *)&hasRight, sizeof(hasRight));
+
+    // Recursively save the left and right subtrees if they exist
+    if (hasLeft)
+        saveNode(node->left, file);
+    if (hasRight)
+        saveNode(node->right, file);
+}
+
+void LLRB::saveTree(const string &filename)
+{
+    ofstream file(filename, ios::binary);
+    if (!file.is_open())
+    {
+        cout << "Failed to open file: " << filename << endl;
+        return;
+    }
+
+    saveNode(root, file); // Assuming root is the root node of the tree
+
+    file.close();
+}
+
+LLRB::Node *LLRB::loadNode(ifstream &file, int &count)
+{
+    // Read the size of the key
+    int keySize;
+    if (!file.read((char *)&keySize, sizeof(keySize)))
+    {
+        return nullptr; // End of file or error
+    }
+
+    // Read the key itself
+    string key(keySize, '\0');
+    file.read(&key[0], keySize);
+
+    // Read the val and color
+    int val;
+    bool color;
+    file.read((char *)&val, sizeof(val));
+    file.read((char *)&color, sizeof(color));
+    Color color1;
+    if (color)
+    {
+        color1 = BLACK;
+    }
+    else
+    {
+        color1 = RED;
+    }
+
+    // Create the node
+    LLRB::Node *node = new LLRB::Node(key, val, color1);
+    count++;
+    // Read the flags indicating whether the left and right nodes exist
+    bool hasLeft, hasRight;
+    file.read((char *)&hasLeft, sizeof(hasLeft));
+    file.read((char *)&hasRight, sizeof(hasRight));
+
+    // Recursively load the left and right subtrees if they exist
+    if (hasLeft)
+    {
+        node->left = loadNode(file, count);
+        if (node->left == nullptr)
+        {
+            hasLeft = false;
+        }
+    }
+    if (hasRight)
+    {
+        node->right = loadNode(file, count);
+        if (node->right == nullptr)
+        {
+            hasRight = false;
+        }
+    }
+
+    return node;
+}
+
+void LLRB::loadTree(const string &filename)
+{
+    ifstream file(filename, ios::binary);
+    if (!file.is_open())
+    {
+        throw runtime_error("Could not open file");
+    }
+    int count = 0;
+    root = loadNode(file, count);
+    this->size = count;
+}

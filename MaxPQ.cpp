@@ -1,86 +1,104 @@
 #include "MaxPQ.hpp"
-template<typename K, typename V>
-  void MaxPQ<K,V>::enqueue(K key,V val) {
-    if(size == capacity) {
-        cerr<<"PQ is full!!!"<<endl;
-    }
-    arr[size]=new Node(key,val);
-    int i = size;
-    swim(i);
-    size++;
-  }
-template<typename K, typename V>
-  void MaxPQ<K,V>::swap(Node* x, Node* y) {
-    MaxPQ<K,V>::Node* tmp;
-    tmp=x;
-    x=y;
-    y=tmp;
-  }
-template<typename K, typename V>
-int MaxPQ<K,V>::parent(int i) {
- return i / 2;
+
+void MaxPQ::enqueue(int key, string val)
+{
+   // if (size == capacity)
+   // {
+   //    cerr << "PQ is full!!!" << endl;
+   // }
+   arr[size] = new MaxNode(key, val);
+   int i = size;
+   swim(i);
+   size++;
 }
 
-template<typename K, typename V>
-int MaxPQ<K,V>::leftchild(int i) {
- return i * 2;
+void MaxPQ::swap(MaxNode **x, MaxNode **y)
+{
+   MaxPQ::MaxNode *tmp= *x;
+   *x = *y;
+   *y = tmp;
 }
 
-template<typename K, typename V>
-int MaxPQ<K,V>::rightchild(int i) {
- return i*2 + 1; 
-}
-template<typename K, typename V>
-void MaxPQ<K,V>::swim(int k) {
-    if( k>1 && arr[parent(k)] < arr[k] ) {
-        swap(arr[parent(k)], arr[k]);
-        swim(parent(k));
-    }
+int MaxPQ::parent(int i)
+{
+   return i / 2;
 }
 
+int MaxPQ::leftchild(int i)
+{
+   return i * 2;
+}
 
-template<typename K, typename V>
- MaxPQ<K,V>::Node* dequeue() {
-    if(size == 0) return NULL;
-    int i = 1;
-    MaxPQ<K,V>::Node* tmp = arr[i];
-    arr[i] = arr[size - 1];
-    sink(i);
-    size--;
-    arr[size] = NULL;
-    delete arr[size];
-    return tmp;
- }  
+int MaxPQ::rightchild(int i)
+{
+   return i * 2 + 1;
+}
 
- template<typename K, typename V>
- void MaxPQ<K,V>::sink(int i) {
-    if(arr[leftchild(i)] >= arr[rightchild(i)]) {
-       swap(arr[leftchild(i)], arr[i]);
-       sink( leftchild(i) );
-    }
-    else {
-       swap(arr[rightchild(i)], arr[i]);
-       sink( rightchild(i) ); 
-    }
- }
+void MaxPQ::swim(int k)
+{
+   if (k > 1 && (arr[parent(k)]->key) < (arr[k]->key))
+   {
+      swap(&arr[parent(k)], &arr[k]);
+      swim(parent(k));
+   }
+}
 
- template<typename K, typename V>
- MaxPQ<K,V>::Node* getHighest() {
-    return arr[1];
- }
+void MaxPQ::dequeue()
+{
+   if (size == 0)
+      return;
+   int i = 1;
+   arr[i] = arr[size - 1];
+   sink(i);
+   size--;
+   arr[size] = NULL;
+   delete arr[size];
+   return;
+}
 
- template<typename K, typename V>
- bool MaxPQ<K,V>::isEmpty() const {
-    return ( size == 1 );
- }
+void MaxPQ::sink(int i)
+{
+   int left = leftchild(i);
+   int right = rightchild(i);
+   int largest = i;
 
- template<typename K, typename V>
- ~MaxPQ() {
-   
- }
+   if (left < size && arr[left]->key > arr[largest]->key)
+   {
+      largest = left;
+   }
 
-template class MaxPQ<unsigned short, string>;
+   if (right < size && arr[right]->key > arr[largest]->key)
+   {
+      largest = right;
+   }
 
+   if (largest != i)
+   {
+      swap(&arr[i], &arr[largest]);
+      sink(largest);
+   }
+}
 
+MaxPQ::MaxNode *MaxPQ::getHighest()
+{
+   return arr[1];
+}
 
+bool MaxPQ::isEmpty() const
+{
+   return (size == 1);
+}
 
+MaxPQ::~MaxPQ()
+{
+   delete[] arr;
+   arr = NULL;
+}
+
+void MaxPQ::display()
+{
+   for (int i = 1; i < size; i++)
+   {
+      cout << arr[i]->val << ":" << arr[i]->key << endl;
+   }
+}

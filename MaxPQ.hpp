@@ -3,39 +3,44 @@
 #include <iostream>
 #include <string>
 using namespace std;
-template <typename K, typename V>
-class MaxPQ {
-    private:
-    class Node 
+
+class MaxPQ
+{
+private:
+    class MaxNode
     {
-        public:
-        K key;
-        V val;
-        Node(K key, V val) : key(key), val(val){};
+    public:
+        int key;
+        string val;
+        MaxNode(int key, string val) : key(key), val(val){};
     };
-    Node** arr;
+    MaxNode **arr;
     int capacity;
     int size;
-    void swap(Node*x, Node*y);
+    void swap(MaxNode **x, MaxNode **y);
     int leftchild(int i);
     int rightchild(int i);
     int parent(int i);
     void swim(int i);
     void sink(int i);
-    public:
-    MaxPQ(int capacity){
-        arr = new Node[capacity];
-        if(arr == NULL){
-            cerr<<"memory allocation failed"<<endl;
+
+public:
+    MaxPQ(int capacity)
+    {
+        arr = new MaxNode *[capacity];
+        if (arr == NULL)
+        {
+            cerr << "memory allocation failed" << endl;
             exit(1);
         }
         this->capacity = capacity;
-        size=1;
+        size = 1;
     }
-    void enqueue(K key, V val);
-    Node* dequeue();
-    Node* getHighest(); 
-    bool isEmpty() const; 
+    void enqueue(int key, string val);
+    void dequeue();
+    MaxNode *getHighest();
+    bool isEmpty() const;
     ~MaxPQ();
+    void display();
 };
 #endif
