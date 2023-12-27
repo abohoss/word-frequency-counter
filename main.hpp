@@ -8,4 +8,8 @@
 void cleanString(string &str);
 
 void tokenizeAndInsert(string &str, LLRB &aLLRB);
+
+void searchCorpus(LLRB &corpusTree);
+
+void mostReapeatedInText();
 #endif

@@ -281,14 +281,6 @@ void LLRB::displayNfrequency(int n, LLRB::Node *&treeNode)
 
     enqueueAll(treeNode, PQ);
 
-    cout << "\n\n\n\n"
-         << endl;
-
-    PQ.display();
-
-    cout << "\n\n\n\n"
-         << endl;
-
     for (int i = 0; i < n; i++)
     {
         if (!PQ.isEmpty())

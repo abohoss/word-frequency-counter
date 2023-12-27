@@ -1,54 +1,51 @@
 #include "main.hpp"
 
-// int main(void)
-// {
-//     // while (true)
-//     // {
-//     string str;
-//     LLRB tree;
-//     int n;
-//     char c;
-//     cout << "Hello! this is the word frequency counter please enter text here: ";
-//     getline(cin, str);
-//     cout << endl;
-//     cleanString(str);
-//     cout << "cleaned string: " << str << endl;
-//     tokenizeAndInsert(str, tree);
-//     cout << "tree size: " << tree.getsize() << endl;
-//     cout << tree << endl;
-//     cout << "please enter how many of the most frequent words you want to see: ";
-//     if (cin >> n)
-//     {
-//         tree.displayNfrequency(n);
-//     }
-//     else
-//     {
-//         cout << "Please enter a valid number!" << endl;
-//         cout << "displaying top 3 words: ";
-//         tree.displayNfrequency(3);
-//         cout << endl;
-//     }
-//     //     cout << "Do you want to continue y/n ";
-//     //     cin >> c;
-//     //     if (c == 'y')
-//     //     {
-//     //         continue;
-//     //     }
-//     //     else if (c == 'n')
-//     //     {
-//     //         break;
-//     //     }
-//     //     else
-//     //     {
-//     //         cout << "please enter a valid letter!!" << endl;
-//     //         continue;
-//     //     }
-//     // }
-//     return (0);
-// }
+int main(void)
+{
+    bool gameOn = true;
+    bool corpusLoaded = false;
+    LLRB corpusTree;
 
-#include <type_traits>
-#include "LLRB.hpp" // Assuming this is where your Node and LLRB classes are defined
+    while (gameOn)
+    {
+        cout << "1. Search corpus" << endl;
+        cout << "2. Most repeated in text" << endl;
+        cout << "3. Exit" << endl;
+        cout << "Enter your choice: ";
+        int choice;
+        cin >> choice;
+        cin.ignore();
+        switch (choice)
+        {
+        case 1:
+            if (corpusLoaded == false)
+            {
+                cout << "Loading corpus..." << endl;
+
+                string binaryFile = "corpusTree.bin";
+                corpusTree.loadTree(binaryFile);
+                corpusLoaded = true;
+                cout << "Corpus loaded!" << endl;
+            }
+            searchCorpus(corpusTree);
+            break;
+        case 2:
+            mostReapeatedInText();
+            break;
+        case 3:
+            gameOn = false;
+            break;
+        default:
+            cout << "Invalid choice" << endl;
+            break;
+        }
+    }
+
+    return (0);
+}
+
+// #include <type_traits>
+// #include "LLRB.hpp"
 
 // int main()
 // {
