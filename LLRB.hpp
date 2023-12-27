@@ -26,7 +26,7 @@ private:
         Node(string key, int val) : left(NULL), right(NULL), val(val), key(key), color(RED){};
         Node(string key, int val, Color color) : left(NULL), right(NULL), val(val), key(key), color(color){};
     };
-    int size;
+    long size;
     Node *root;
     void insert(string key, Node *&treeNode);
     void rotateLeft(Node *&treeNode);
@@ -43,7 +43,7 @@ private:
     void copyTree(Node *&treeNodeOrig, Node *&treeNodeNew);
     void enqueueAll(Node *&treeNode, MaxPQ &PQ);
     void saveNode(Node *node, ofstream &file);
-    Node* loadNode(ifstream &file);
+    Node *loadNode(ifstream &file);
 
 public:
     LLRB();
@@ -51,7 +51,7 @@ public:
     LLRB(LLRB &origLLRB);
     LLRB &operator=(LLRB &rightLLRB);
     void insert(string &key);
-    int getsize() const;
+    long getsize() const;
     bool isEmpty() const;
     int getFrequency(string &key);
     void display(ostream &out, int choice);

@@ -45,8 +45,16 @@ void tokenizeAndInsert(string &filename, LLRB &tree)
         string word;
         while (ss >> word)
         {
-            cleanString(word); // Assuming cleanString modifies the string in-place to clean it
-            tree.insert(word); // Assuming insert is a method of LLRB that inserts a word
+            if (word != "")
+            {
+
+                cleanString(word); // Assuming cleanString modifies the string in-place to clean it
+                if (word == "")
+                {
+                    continue;
+                }
+                tree.insert(word); // Assuming insert is a method of LLRB that inserts a word
+            }
         }
     }
 

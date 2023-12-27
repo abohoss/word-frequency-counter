@@ -129,7 +129,7 @@ void LLRB::rotateLeft(LLRB::Node *&treeNode)
     treeNode = temp;
 }
 
-int LLRB::getsize() const
+long LLRB::getsize() const
 {
     return (size);
 }
