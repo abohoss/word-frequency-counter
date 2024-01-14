@@ -1,2 +1,2 @@
 # word-frequency-counter
-We creadet a program that prompts the user to enter a text and the shows the most frequent used words using a red-black tree for storing text and a PQ implemented using a heap for showing frequency
+We created a program that prompts the user to enter a text and the shows the most frequent used words using a red-black tree for storing text and a PQ implemented using a heap for showing frequency.Additionally,program reads a corpus file and saves it into a Red-Black tree data structure which I implemented, and user can input in a binary file then loads it when program executes where user can enter any word and the program return its frequency in text.
